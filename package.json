@@ -6,7 +6,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start": "http-server dist/inventario-frontend/browser -p ${PORT:-4200}"
+    "start": "http-server dist/inventario-frontend/browser -p ${PORT:-3000}"
   },
   "private": true,
   "dependencies": {

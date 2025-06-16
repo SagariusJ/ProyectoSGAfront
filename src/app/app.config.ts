@@ -15,7 +15,7 @@ export const appConfig: ApplicationConfig = {
       useClass: AuthInterceptor,
       multi: true
     },
-    { provide: 'API_URL', useValue: 'http://localhost:8080' }
+    { provide: 'API_URL', useValue: 'https://microservice-gateway-production.up.railway.app' }
   ]
 };
 

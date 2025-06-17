@@ -18,11 +18,11 @@ export interface Producto {
 export class HomeComponent {
   productos: Producto[] = [
     { imagen: 'producto1.jpg', titulo: 'Nombre del Producto1', descripcion: 'Descripción breve del producto.', precio: 8990 },
-    { imagen: 'producto1.jpg', titulo: 'Nombre del Producto2', descripcion: 'Descripción breve del producto.', precio: 4990 },
-    { imagen: 'producto1.jpg', titulo: 'Nombre del Producto3', descripcion: 'Descripción breve del producto.', precio: 5990 },
-    { imagen: 'producto1.jpg', titulo: 'Nombre del Producto4', descripcion: 'Descripción breve del producto.', precio: 6990 },
-    { imagen: 'producto1.jpg', titulo: 'Nombre del Producto5', descripcion: 'Descripción breve del producto.', precio: 8990 },
-    { imagen: 'producto1.jpg', titulo: 'Nombre del Producto6', descripcion: 'Descripción breve del producto.', precio: 9990 }
+    { imagen: 'producto2.jpg', titulo: 'Nombre del Producto2', descripcion: 'Descripción breve del producto.', precio: 4990 },
+    { imagen: 'producto3.jpg', titulo: 'Nombre del Producto3', descripcion: 'Descripción breve del producto.', precio: 5990 },
+    { imagen: 'producto4.jpg', titulo: 'Nombre del Producto4', descripcion: 'Descripción breve del producto.', precio: 6990 },
+    { imagen: 'producto5.jpg', titulo: 'Nombre del Producto5', descripcion: 'Descripción breve del producto.', precio: 8990 },
+    { imagen: 'producto6.jpg', titulo: 'Nombre del Producto6', descripcion: 'Descripción breve del producto.', precio: 9990 }
   ];
 
   startIndex: number = 0;
@@ -39,12 +39,19 @@ export class HomeComponent {
     }
   }
 
-  // Para el carrusel principal de imágenes (slides)
-  slides = Array(6);  // tamaño fijo 6 (puedes cambiar según número de slides)
+  // Carrusel superior de imágenes
+  slides = [
+    'slide1.jpg',
+    'slide2.jpg',
+    'slide3.jpg',
+    'slide4.jpg',
+    'slide5.jpg',
+    'slide6.jpg'
+  ];
   currentIndex = 0;
 
   get carouselTransform(): string {
-    return `translateX(-${this.currentIndex * 90}vw)`;
+    return `translateX(-${this.currentIndex * 100}vw)`;
   }
 
   nextSlide(): void {

@@ -1,17 +1,22 @@
+<!-- Carrusel principal de imágenes -->
 <div class="cont-sup-btns">
   <button class="carousel-btn prev" (click)="prevSlide()">&#10094;</button>
   <div class="cont-sup">
     <div class="carousel-container">
       <div class="carousel-track" [style.transform]="carouselTransform">
-        <img src="fondo.jpg" class="carousel-slide" alt="Slide 1" *ngFor="let _ of slides; let i = index">
+        <img 
+          *ngFor="let slide of slides; let i = index"
+          [src]="slide"
+          class="carousel-slide"
+          alt="Slide {{ i + 1 }}">
       </div>
     </div>
 
     <div class="carousel-dots">
       <span 
-        class="dot" 
-        *ngFor="let _ of slides; let i = index" 
-        [class.active]="currentIndex === i" 
+        class="dot"
+        *ngFor="let _ of slides; let i = index"
+        [class.active]="currentIndex === i"
         (click)="goToSlide(i)">
       </span>
     </div>
@@ -19,38 +24,22 @@
   <button class="carousel-btn next" (click)="nextSlide()">&#10095;</button>
 </div>
 
+<!-- Sección de categorías -->
 <div class="cont-categorias">
-  <h2>Categorias mas populares</h2>
+  <h2>Categorías más populares</h2>
   <div class="cont-btns">
-    <div class="cont-btn">
-      <button id="cat-1"><i class='bx bxs-capsule'></i></button>
-      <p>Analgésicos</p>
-    </div>
-    <div class="cont-btn">
-      <button id="cat-2"><i class='bx bx-capsule'></i></button>
-      <p>Antibióticos</p>
-    </div>
-    <div class="cont-btn">
-      <button id="cat-3"><i class='bx bxs-virus'></i></button>
-      <p>Antigripales</p>
-    </div>
-    <div class="cont-btn">
-      <button id="cat-4"><i class='bx bx-check-shield'></i></button>
-      <p>Gastrointestinales</p>
-    </div>
-    <div class="cont-btn">
-      <button id="cat-5"><i class='bx bx-plus-medical'></i></button>
-      <p>Vitaminas y Suplementos</p>
-    </div>
-    <div class="cont-btn">
-      <button id="cat-6"><i class='bx bx-spray-can'></i></button>
-      <p>Antialérgicos</p>
-    </div>
+    <div class="cont-btn"><button id="cat-1"><i class='bx bxs-capsule'></i></button><p>Analgésicos</p></div>
+    <div class="cont-btn"><button id="cat-2"><i class='bx bx-capsule'></i></button><p>Antibióticos</p></div>
+    <div class="cont-btn"><button id="cat-3"><i class='bx bxs-virus'></i></button><p>Antigripales</p></div>
+    <div class="cont-btn"><button id="cat-4"><i class='bx bx-check-shield'></i></button><p>Gastrointestinales</p></div>
+    <div class="cont-btn"><button id="cat-5"><i class='bx bx-plus-medical'></i></button><p>Vitaminas y Suplementos</p></div>
+    <div class="cont-btn"><button id="cat-6"><i class='bx bx-spray-can'></i></button><p>Antialérgicos</p></div>
   </div>
 </div>
 
 <div class="separado-catergorias"></div>
 
+<!-- Carrusel de productos -->
 <div class="cont-ofertas">
   <h2>Ofertas Destacadas</h2>
 </div>
@@ -58,12 +47,8 @@
 <div class="product-carousel-wrapper">
   <div class="carousel-controls">
     <button (click)="mostrarPrev()" class="carousel-arrow">&#10094;</button>
-
     <div class="product-carousel">
-      <div
-        class="product-card"
-        *ngFor="let producto of productos | sliceProducts: startIndex : 4"
-      >
+      <div class="product-card" *ngFor="let producto of productos | sliceProducts: startIndex : 4">
         <img [src]="producto.imagen" alt="{{ producto.titulo }}" class="product-img" />
         <div class="product-info">
           <h4 class="product-title">{{ producto.titulo }}</h4>
@@ -73,7 +58,6 @@
         <button class="add-to-cart">Agregar</button>
       </div>
     </div>
-
     <button (click)="mostrarNext()" class="carousel-arrow">&#10095;</button>
   </div>
 </div>

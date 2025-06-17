@@ -41,12 +41,12 @@ export class HomeComponent {
 
   // Carrusel superior de imágenes
   slides = [
-    'slide1.jpg',
-    'slide2.jpg',
-    'slide3.jpg',
-    'slide4.jpg',
-    'slide5.jpg',
-    'slide6.jpg'
+    'assets/img/slide1.jpg',
+    'assets/img/slide2.jpg',
+    'assets/img/slide3.jpg',
+    'assets/img/slide4.jpg',
+    'assets/img/slide5.jpg',
+    'assets/img/slide6.jpg'
   ];
   currentIndex = 0;
 

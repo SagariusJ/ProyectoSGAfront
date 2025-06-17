@@ -84,12 +84,14 @@
             <div class="forms">
                 <form id="form-mod" (ngSubmit)="updateWarehouse()" #formMod="ngForm">
                     <label for="id-modificar">ID de la Sucursal</label>
-                    <input type="text" id="id-modificar">
+                    <input type="text" id="id-modificar" name="id" [(ngModel)]="editWarehouse.id" readonly/>
+
                     <label class="titulos-form">Nombre de la Sucursal</label>
-                    <input type="text" name="product_name" [(ngModel)]="newWarehouse.warehouse_Name" required />
+                    <input type="text" name="product_name" [(ngModel)]="editWarehouse.warehouse_Name" required />
 
                     <label class="titulos-form">Dirección de la Sucursal</label>
-                    <textarea name="description" [(ngModel)]="newWarehouse.direction" required></textarea>
+                    <textarea name="description" [(ngModel)]="editWarehouse.direction" required></textarea>
+                    
                     <button popovertarget="popup-modificar" popovertargetaction="hide" type="submit" id="btn-mod">Modificar</button>
                 </form>
                 

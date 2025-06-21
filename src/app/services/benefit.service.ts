@@ -1,38 +1,41 @@
 // src/app/services/beneficio.service.ts
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface Beneficio {
   id: number;
-  nombre: string;
-  descripcion: string;
-  requisitos: string;
+  name: string;
+  discount: number;
+  description: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class BenefitService {
-  private storageKey = 'beneficios';
+  private baseUrl: string;
 
-  constructor() {}
+  constructor(
+    private http: HttpClient,
+    @Inject('API_URL') private apiUrl: string
+  ) {
+    this.baseUrl = `${this.apiUrl}/benefits`;
+    }
 
-  // Obtener lista de beneficios
-  getBeneficios(): Beneficio[] {
-    const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : [];
+  create(beneficio: Beneficio): Observable<void> {
+      return this.http.post<void>(`${this.baseUrl}/create`, beneficio);
   }
 
-  // Crear beneficio
-  agregarBeneficio(beneficio: Omit<Beneficio, 'id'>): void {
-    const beneficios = this.getBeneficios();
-    const newId = beneficios.length > 0 ? beneficios[beneficios.length - 1].id + 1 : 1;
-    beneficios.push({ ...beneficio, id: newId });
-    localStorage.setItem(this.storageKey, JSON.stringify(beneficios));
+  getAll(): Observable<Beneficio[]> {
+    return this.http.get<Beneficio[]>(`${this.baseUrl}/all`);
+  }
+  
+  getById(id: number): Observable<Beneficio> {
+    return this.http.get<Beneficio>(`${this.baseUrl}/search/${id}`);
   }
 
-  // Eliminar beneficio por ID
-  eliminarBeneficio(id: number): void {
-    const beneficios = this.getBeneficios().filter(b => b.id !== id);
-    localStorage.setItem(this.storageKey, JSON.stringify(beneficios));
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete/${id}`, { responseType: 'text' });
   }
 }

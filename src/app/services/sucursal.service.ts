@@ -29,15 +29,15 @@ export class SucursalService {
       return this.http.get<Warehouse[]>(`${this.baseUrl}/all`);
     }
   
-    getById(id: number): Observable<Warehouse> {
-      return this.http.get<Warehouse>(`${this.baseUrl}/search/${id}`);
-    }
+  getById(id: number): Observable<Warehouse> {
+    return this.http.get<Warehouse>(`${this.baseUrl}/search/${id}`);
+  }
   
-    update(id: number, warehouse: Warehouse): Observable<Warehouse> {
-      return this.http.put<Warehouse>(`${this.baseUrl}/update/${id}`, warehouse);
-    }
+  update(id: number, warehouse: Warehouse): Observable<Warehouse> {
+    return this.http.put<Warehouse>(`${this.baseUrl}/update/${id}`, warehouse);
+  }
   
-    delete(id: number): Observable<any> {
-      return this.http.delete(`${this.baseUrl}/delete/${id}`, { responseType: 'text' });
-    }
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete/${id}`, { responseType: 'text' });
+  }
 }

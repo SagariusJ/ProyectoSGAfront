@@ -1,4 +1,3 @@
-// beneficios.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,9 +18,11 @@ export class BeneficiosComponent implements OnInit {
   filterPost = '';
   selectedLimit = 5;
   currentPage = 1;
+
   beneficio_name = '';
   descripcion_benef = '';
-  requisitos_benef = '';
+  descuento_benef = 0;
+
   beneficioEliminarId: number | null = null;
 
   constructor(private beneficioService: BenefitService) {}
@@ -36,26 +37,43 @@ export class BeneficiosComponent implements OnInit {
 
   get filteredPosts(): Beneficio[] {
     return this.beneficios.filter(b =>
-      b.nombre.toLowerCase().includes(this.filterPost.toLowerCase()) ||
-      b.descripcion.toLowerCase().includes(this.filterPost.toLowerCase())
-    ).slice((this.currentPage - 1) * this.selectedLimit, this.currentPage * this.selectedLimit);
+      b.name.toLowerCase().includes(this.filterPost.toLowerCase()) ||
+      b.description.toLowerCase().includes(this.filterPost.toLowerCase())
+    ).slice(
+      (this.currentPage - 1) * this.selectedLimit,
+      this.currentPage * this.selectedLimit
+    );
   }
 
   cargarBeneficios(): void {
-    this.beneficios = this.beneficioService.getBeneficios();
+    this.beneficioService.getAll().subscribe({
+      next: (data) => this.beneficios = data,
+      error: (err) => console.error('Error al cargar beneficios', err)
+    });
   }
 
   agregarBeneficio(): void {
-    if (!this.beneficio_name || !this.descripcion_benef || !this.requisitos_benef) return;
-    this.beneficioService.agregarBeneficio({
-      nombre: this.beneficio_name,
-      descripcion: this.descripcion_benef,
-      requisitos: ''
+    if (!this.beneficio_name || !this.descripcion_benef || this.descuento_benef <= 0) {
+      alert('Todos los campos son obligatorios');
+      return;
+    }
+
+    const nuevoBeneficio: Beneficio = {
+      id: 0, // el backend debe asignar el id
+      name: this.beneficio_name,
+      discount: this.descuento_benef,
+      description: this.descripcion_benef
+    };
+
+    this.beneficioService.create(nuevoBeneficio).subscribe({
+      next: () => {
+        this.beneficio_name = '';
+        this.descripcion_benef = '';
+        this.descuento_benef = 0;
+        this.cargarBeneficios();
+      },
+      error: (err) => console.error('Error al agregar beneficio', err)
     });
-    this.beneficio_name = '';
-    this.descripcion_benef = '';
-    this.requisitos_benef = '';
-    this.cargarBeneficios();
   }
 
   seleccionarBeneficioEliminar(id: number): void {
@@ -64,9 +82,13 @@ export class BeneficiosComponent implements OnInit {
 
   eliminarBeneficio(): void {
     if (this.beneficioEliminarId !== null) {
-      this.beneficioService.eliminarBeneficio(this.beneficioEliminarId);
-      this.beneficioEliminarId = null;
-      this.cargarBeneficios();
+      this.beneficioService.delete(this.beneficioEliminarId).subscribe({
+        next: () => {
+          this.beneficioEliminarId = null;
+          this.cargarBeneficios();
+        },
+        error: (err) => console.error('Error al eliminar beneficio', err)
+      });
     }
   }
 }

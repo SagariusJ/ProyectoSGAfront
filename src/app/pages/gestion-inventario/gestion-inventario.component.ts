@@ -27,6 +27,8 @@ export class GestionInventarioComponent implements OnInit {
   productsList: Products[] = [];
   warehouseList: Warehouse[] = [];
 
+  stockwareiD: number | undefined = 0;
+
   newInventory: {
     selectedProductId: number | null;
     selectedWarehouseId: number | null;
@@ -107,7 +109,7 @@ export class GestionInventarioComponent implements OnInit {
       inventory_number,
       exp_date,
       unit_price,
-      stockAmount
+      stockAmount,
     } = this.newInventory;
 
     if (!selectedProductId || !selectedWarehouseId) {
@@ -173,6 +175,8 @@ export class GestionInventarioComponent implements OnInit {
       stockAmount: stockware.amount ?? 0
     };
 
+    this.stockwareiD = stockware.id;
+
     const popup = document.getElementById('popup-modificar') as HTMLElement;
     if (popup) popup.setAttribute('popover', 'auto');
   }
@@ -184,10 +188,11 @@ export class GestionInventarioComponent implements OnInit {
       inventory_number,
       exp_date,
       unit_price,
-      stockAmount
+      stockAmount,
+      id
     } = this.editInventory;
 
-    if (!selectedProductId || !selectedWarehouseId) {
+    if (!selectedProductId || !selectedWarehouseId || id == null) {
       alert('Todos los campos son obligatorios para modificar.');
       return;
     }
@@ -207,7 +212,7 @@ export class GestionInventarioComponent implements OnInit {
       unit_price
     };
 
-    this.inventarioService.update(updatedInventory.inventory_number, updatedInventory).subscribe(() => {
+    this.inventarioService.update(id, updatedInventory).subscribe(() => {
       this.inventarioService.getAll().subscribe((inventories: Inventory[]) => {
         const matched = inventories.find(i =>
           i.product.id === selectedProductId &&
@@ -224,10 +229,11 @@ export class GestionInventarioComponent implements OnInit {
         const updatedStock: StockWare = {
           lot: matched,
           warehouse: selectedWarehouse,
-          amount: stockAmount
+          amount: stockAmount,
+          id: this.stockwareiD
         };
 
-        this.sucursalInventarioService.update(matched.id!, updatedStock).subscribe(() => {
+        this.sucursalInventarioService.update(updatedStock.id!, updatedStock).subscribe(() => {
           this.loadStock();
           const popup = document.getElementById('popup-modificar') as HTMLElement;
           if (popup && popup.hidePopover) popup.hidePopover();
@@ -235,6 +241,7 @@ export class GestionInventarioComponent implements OnInit {
       });
     });
   }
+
 
   stockwareIdToDelete: number | null = null;
   inventoryIdToDelete: number | null = null;

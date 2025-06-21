@@ -10,6 +10,7 @@ body{
 }
 
 .lista-users{
+    margin-top: 6.5vh;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -1,4 +1,3 @@
-<!-- beneficios.component.html -->
 <section class="fondo-seccion">
   <div class="section-sup">
     <div class="number-products">
@@ -37,16 +36,16 @@
           <th>Id</th>
           <th>Nombre</th>
           <th>Descripción</th>
-          <th>Requisitos</th>
+          <th>Descuento</th>
           <th>Acción</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let post of filteredPosts">
           <td>{{ post.id }}</td>
-          <td>{{ post.nombre }}</td>
-          <td>{{ post.descripcion }}</td>
-          <td>{{ post.requisitos || 'N/A' }}</td>
+          <td>{{ post.name }}</td>
+          <td>{{ post.description }}</td>
+          <td>{{ post.discount }}%</td>
           <td>
             <button id="btn-eliminar-benef" popovertarget="popup-eliminar" (click)="seleccionarBeneficioEliminar(post.id)">
               <i class="bx bx-trash"></i>
@@ -87,8 +86,8 @@
           <label class="titulos-form">Descripción del beneficio</label>
           <textarea name="descripcion_benef" [(ngModel)]="descripcion_benef" required></textarea>
 
-          <label class="titulos-form">Requisitos del beneficio</label>
-          <textarea name="requisitos_benef" [(ngModel)]="requisitos_benef" required></textarea>
+          <label class="titulos-form">Descuento (%)</label>
+          <input type="number" name="descuento_benef" [(ngModel)]="descuento_benef" min="0" required>
 
           <button type="submit" id="btn-agregar" popovertarget="popup-agregar" popovertargetaction="hide">Agregar</button>
         </form>

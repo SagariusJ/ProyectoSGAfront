@@ -17,13 +17,23 @@ export interface Producto {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+
+  slidesArriba = [
+    { imagen: 'Producto1.jpg', alt: 'Slide 1' },
+    { imagen: 'Producto2.jpg', alt: 'Slide 2' },
+    { imagen: 'Producto3.jpg', alt: 'Slide 3' },
+    { imagen: 'Producto4.jpg', alt: 'Slide 4' },
+    { imagen: 'Producto5.jpg', alt: 'Slide 5' },
+    { imagen: 'Producto6.jpg', alt: 'Slide 6' },
+  ];
+
   productos: Producto[] = [
-    { imagen: 'fondo.jpg', titulo: 'Nombre del Producto1', descripcion: 'Descripción breve del producto.', precio: 8990 },
-    { imagen: 'fondo.jpg', titulo: 'Nombre del Producto2', descripcion: 'Descripción breve del producto.', precio: 4990 },
-    { imagen: 'fondo.jpg', titulo: 'Nombre del Producto3', descripcion: 'Descripción breve del producto.', precio: 5990 },
-    { imagen: 'fondo.jpg', titulo: 'Nombre del Producto4', descripcion: 'Descripción breve del producto.', precio: 6990 },
-    { imagen: 'fondo.jpg', titulo: 'Nombre del Producto5', descripcion: 'Descripción breve del producto.', precio: 8990 },
-    { imagen: 'fondo.jpg', titulo: 'Nombre del Producto6', descripcion: 'Descripción breve del producto.', precio: 9990 }
+    { imagen: 'Producto1.jpg', titulo: 'Nombre del Producto1', descripcion: 'Descripción breve del producto.', precio: 8990 },
+    { imagen: 'Producto2.jpg', titulo: 'Nombre del Producto2', descripcion: 'Descripción breve del producto.', precio: 4990 },
+    { imagen: 'Producto3.jpg', titulo: 'Nombre del Producto3', descripcion: 'Descripción breve del producto.', precio: 5990 },
+    { imagen: 'Producto4.jpg', titulo: 'Nombre del Producto4', descripcion: 'Descripción breve del producto.', precio: 6990 },
+    { imagen: 'Producto5.jpg', titulo: 'Nombre del Producto5', descripcion: 'Descripción breve del producto.', precio: 8990 },
+    { imagen: 'Producto6.jpg', titulo: 'Nombre del Producto6', descripcion: 'Descripción breve del producto.', precio: 9990 }
   ];
 
   startIndex: number = 0;

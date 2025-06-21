@@ -3,7 +3,7 @@
   <div class="cont-sup">
     <div class="carousel-container">
       <div class="carousel-track" [style.transform]="carouselTransform">
-        <img src="fondo.jpg" class="carousel-slide" alt="Slide 1" *ngFor="let _ of slides; let i = index">
+        <img *ngFor="let slide of slidesArriba; let i = index"[src]="slide.imagen"[alt]="slide.alt"class="carousel-slide">
       </div>
     </div>
 

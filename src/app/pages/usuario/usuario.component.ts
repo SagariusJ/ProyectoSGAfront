@@ -19,7 +19,7 @@ export class UsuarioComponent implements OnInit {
     private usuarioService: UsuarioService,
     private http: HttpClient
   ) {
-    this.baseUrl = `${usuarioService['apiUrl']}/auth`; // acceder a apiUrl inyectado
+    this.baseUrl = `${usuarioService['apiUrl']}/api/auth`; // acceder a apiUrl inyectado
   }
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class UsuarioComponent implements OnInit {
       return;
     }
 
-    this.http.get<User[]>(`${this.baseUrl}/admin/users`).subscribe({
+    this.http.get<User[]>(`${this.baseUrl}/api/admin/users`).subscribe({
       next: (users) => {
         const matchedUser = users.find(u => u.username === username);
         if (matchedUser) {

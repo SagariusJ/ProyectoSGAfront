@@ -36,10 +36,12 @@ export class RegisterComponent {
     };
 
     this.usuarioService.register(request).subscribe({
-      next: () => {
+      next: (response) => {
+        console.log('Respuesta exitosa:', response);
         this.router.navigate(['/login']);
       },
-      error: () => {
+      error: (err) => {
+        console.error('Error en el registro:', err);
         this.errorMessage = 'Error al registrarse';
       }
     });

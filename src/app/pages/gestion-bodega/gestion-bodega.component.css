@@ -385,9 +385,12 @@ textarea{
     margin-left: 1vw;
 }
 
-#label-nombre-agregar,
-#label-id-mod{
-    margin-top: 1vw;
+#label-nombre-agregar{
+    margin-top: 5vw;
+}
+
+#label-id-modificar{
+    margin-top: 4vw;
 }
 
 #ID-eliminar{
@@ -420,7 +423,7 @@ textarea{
     width: 8vw;
     height: 4vh;
     border-radius: 2em;
-    margin-left: 26vw;
+    margin-left: 1vw;
     margin-top: 4vh;
     background-color: rgb(33, 179, 65);
     border: solid rgb(14, 150, 43) 2px;
@@ -437,7 +440,7 @@ textarea{
     width: 8vw;
     height: 4vh;
     border-radius: 2em;
-    margin-left: 26vw;
+    margin-left: 1vw;
     margin-top: 4vh;
     background-color: rgb(42, 155, 221);
     border: solid rgb(34, 128, 182) 2px;

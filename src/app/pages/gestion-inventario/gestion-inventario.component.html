@@ -1,5 +1,4 @@
-
-    <section class="inventario">
+<section class="inventario">
         <div class="section-sup">
             <div class="number-products">
                 <label for="num">Mostrar </label>
@@ -105,16 +104,16 @@
                 </select>
 
                 <label>Lote</label>
-                <input type="text" name="lote" [(ngModel)]="editInventory.inventory_number" required />
+                <input id="lote-mod" type="text" name="lote" [(ngModel)]="editInventory.inventory_number" required />
 
                 <label>Fecha de expiración</label>
-                <input type="date" name="fechaExpiracion" [(ngModel)]="editInventory.exp_date" required />
+                <input id="fecha-mod" type="date" name="fechaExpiracion" [(ngModel)]="editInventory.exp_date" required />
 
                 <label>Precio unitario</label>
-                <input type="number" name="precio" step="0.01" [(ngModel)]="editInventory.unit_price" required />
+                <input id="precio-mod" type="number" name="precio" step="0.01" [(ngModel)]="editInventory.unit_price" required />
 
                 <label>Stock</label>
-                <input type="number" name="stock" [(ngModel)]="editInventory.stockAmount" required />
+                <input id="stock-mod" type="number" name="stock" [(ngModel)]="editInventory.stockAmount" required />
 
                 <button popovertarget="popup-modificar" popovertargetaction="hide" type="submit" id="btn-mod">Modificar</button>
             </form>
@@ -145,20 +144,19 @@
                     </select>
 
                     <label>Lote</label>
-                    <input type="text" name="lote" [(ngModel)]="newInventory.inventory_number" required />
+                    <input id="lote-agregar" type="text" name="lote" [(ngModel)]="newInventory.inventory_number" required />
 
                     <label>Fecha de expiración</label>
-                    <input type="date" name="fechaExpiracion" [(ngModel)]="newInventory.exp_date" required />
+                    <input id="fecha-agregar" type="date" name="fechaExpiracion" [(ngModel)]="newInventory.exp_date" required />
 
                     <label>Precio unitario</label>
-                    <input type="number" name="precio" step="0.01" [(ngModel)]="newInventory.unit_price" required />
+                    <input id="precio-agregar" type="number" name="precio" step="0.01" [(ngModel)]="newInventory.unit_price" required />
 
                     <label>Stock</label>
-                    <input type="number" name="stock" [(ngModel)]="newInventory.stockAmount" required />
+                    <input id="stock-agregar" type="number" name="stock" [(ngModel)]="newInventory.stockAmount" required />
 
                     <button popovertarget="popup-agregar" popovertargetaction="hide" type="submit" id="btn-agregar">Agregar</button>
                 </form>
             </div>
         </div>
     </div>
-

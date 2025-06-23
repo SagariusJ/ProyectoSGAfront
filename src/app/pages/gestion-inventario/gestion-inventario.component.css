@@ -340,6 +340,37 @@ thead th:last-child {
     margin-left: 2vw;
 }
 
+#form-mod select,
+#form-agregar select{
+    width: 30vw;
+    margin-left: 1vw;
+    height: 4.5vh;
+    border-radius: 0.4em;
+    border: solid rgb(223, 223, 223) 0.15em;
+    outline: none;
+    padding: 1vh;
+}
+
+#lote-mod,
+#lote-agregar{
+    width: 6vw;
+}
+
+#fecha-mod,
+#fecha-agregar{
+    width: 10vw;
+}
+
+#precio-mod,
+#precio-agregar{
+    width: 15vw;
+}
+
+#stock-mod,
+#stock-agregar{
+    width: 15vw;
+}
+
 #form-agregar label,
 #form-mod label{
     width: 40vw;
@@ -403,17 +434,12 @@ thead th:last-child {
     border-radius: 0.25em;
 }
 
-#stock-agregar,
-#stock-mod{
-    width: 10vw;
-}
-
 #btn-agregar{
     width: 8vw;
     height: 4vh;
     border-radius: 2em;
     margin-left: 26vw;
-    margin-top: -4vh;
+    margin-top: 4vh;
     background-color: rgb(33, 179, 65);
     border: solid rgb(14, 150, 43) 2px;
     cursor: pointer;
@@ -430,7 +456,7 @@ thead th:last-child {
     height: 4vh;
     border-radius: 2em;
     margin-left: 26vw;
-    margin-top: -4vh;
+    margin-top: 2vh;
     background-color: rgb(42, 155, 221);
     border: solid rgb(34, 128, 182) 2px;
     cursor: pointer;

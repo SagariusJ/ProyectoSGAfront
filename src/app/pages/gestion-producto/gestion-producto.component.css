@@ -14,7 +14,7 @@ body{
     flex-direction: column;
     align-items: center;
     min-height: 90vh;
-    margin-top: 10vh;
+    margin-top: 8vh;
 }
 
 .section-sup{
@@ -269,9 +269,10 @@ thead th:last-child {
     border-top-right-radius: 10px;
 }
 
-#pop-up-mod{
-    height: 90vh;
-    top: 5vh;
+#pop-up-mod,
+#pop-up-agregar{
+    height: 75vh;
+    top: 10vh;
 }
 
 #pop-up-eliminar{
@@ -367,9 +368,13 @@ thead th:last-child {
     width: 15vw;
 }
 
-#nombre-agregar,
 #nombre-mod{
+   width: 25vw; 
+}
+
+#nombre-agregar{
     width: 25vw;
+    margin-top: 2.5vh;
 }
 
 #descripcion-agregar,
@@ -412,8 +417,8 @@ thead th:last-child {
     width: 8vw;
     height: 4vh;
     border-radius: 2em;
-    margin-left: 26vw;
-    margin-top: -4vh;
+    margin-left: 23vw;
+    margin-top: 8vh;
     background-color: rgb(33, 179, 65);
     border: solid rgb(14, 150, 43) 2px;
     cursor: pointer;
@@ -429,8 +434,8 @@ thead th:last-child {
     width: 8vw;
     height: 4vh;
     border-radius: 2em;
-    margin-left: 26vw;
-    margin-top: -4vh;
+    margin-left: 23vw;
+    margin-top: 4vh;
     background-color: rgb(42, 155, 221);
     border: solid rgb(34, 128, 182) 2px;
     cursor: pointer;

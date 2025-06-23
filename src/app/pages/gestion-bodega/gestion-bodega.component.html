@@ -1,6 +1,4 @@
-
-
-    <section class="inventario">
+<section class="inventario">
         <div class="section-sup">
             <div class="number-products">
                 <label for="num">Mostrar </label>
@@ -83,7 +81,7 @@
             </div>
             <div class="forms">
                 <form id="form-mod" (ngSubmit)="updateWarehouse()" #formMod="ngForm">
-                    <label for="id-modificar">ID de la Sucursal</label>
+                    <label id="label-id-modificar">ID de la Sucursal</label>
                     <input type="text" id="id-modificar" name="id" [(ngModel)]="editWarehouse.id" readonly/>
 
                     <label class="titulos-form">Nombre de la Sucursal</label>
@@ -97,7 +95,7 @@
                 
                 <div class="imagen-producto-mod">
                     <div class="fondo-imagen">
-                        <img src="/src/app/images/imagen_defecto.png" alt="">
+                        <img src="imagen_defecto.png" alt="">
                     </div>         
                     <input type="file">
                 </div>
@@ -115,7 +113,7 @@
             </div>
             <div class="forms">
                 <form id="form-agregar" #formAgregar="ngForm" (ngSubmit)="addWarehouse()">
-                    <label class="titulos-form">Nombre de la Sucursal</label>
+                    <label id="label-nombre-agregar" class="titulos-form">Nombre de la Sucursal</label>
                     <input type="text" name="product_name" [(ngModel)]="newWarehouse.warehouse_Name" required />
 
                     <label class="titulos-form">Dirección de la Sucursal</label>
@@ -126,7 +124,7 @@
 
                 <div class="imagen-producto-agregar">
                     <div class="fondo-imagen">
-                        <img src="/src/app/images/imagen_defecto.png" alt="" />
+                        <img src="imagen_defecto.png" alt="" />
                     </div>
                     <input type="file" />
                 </div>

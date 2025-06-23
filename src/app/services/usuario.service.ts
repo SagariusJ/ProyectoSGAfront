@@ -46,7 +46,7 @@ export class UsuarioService {
     private http: HttpClient,
     @Inject('API_URL') private apiUrl: string
   ) {
-    this.baseUrl = `${this.apiUrl}/auth`;
+    this.baseUrl = `${this.apiUrl}/api/auth`;
   }
 
   register(request: RegisterRequest): Observable<string> {

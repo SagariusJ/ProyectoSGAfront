@@ -1,3 +1,5 @@
+
+<!-- Barra superior -->
 <header class="header">
   <div id="logo">
     <a [routerLink]="'/home'">
@@ -16,19 +18,12 @@
   </nav>
 </header>
 
+<!-- División decoración -->
 <div class="divisor"></div>
 
 <!-- Menú lateral desplegable -->
-<div
-  id="side-menu-overlay"
-  class="menu-overlay hidden"
-  (click)="closeMenu()"
->
-  <div
-    id="side-menu"
-    class="side-menu"
-    (click)="$event.stopPropagation()"
-  >
+<div  id="side-menu-overlay" class="menu-overlay hidden" (click)="closeMenu()">
+  <div id="side-menu" class="side-menu" (click)="$event.stopPropagation()">
     <span class="close-btn" (click)="closeMenu()">&#10005;</span>
     <nav class="side-menu-links">
       <div class="cont-imag">
@@ -48,9 +43,7 @@
 <!-- app.component.html -->
 <router-outlet></router-outlet>
 
-
-
-
+<!-- Barra footer -->
 <footer>
   <div class="logo-footer">
     <img src="icono.png" alt="icono footer" />
@@ -84,5 +77,5 @@
   </div>
 </footer>
 
+<!-- Linea de derechos de autor -->
 <div class="end-page">Todos los derechos reservados &#169;</div>
-

@@ -1,163 +1,231 @@
+<!-- 1. Contenedor general -->
 <section class="inventario">
-        <div class="section-sup">
-            <div class="number-products">
-                <label for="num">Mostrar </label>
-                <select name="" id="num" [(ngModel)]="selectedLimit">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                </select>
-                <p> productos</p>
-            </div>
 
-            <div class="paginacion">
-                <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1"><i class='bx bx-chevron-left'></i></button>
-                    <span>Página {{ currentPage }} de {{ totalPages }}</span>
-                <button (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages"><i class='bx bx-chevron-right'></i></button>
-            </div>
 
-            <div class="container-buttons">
-                <button id="eliminar" popovertarget="popup-eliminar"><i class='bx bx-minus'></i></button>
-                <button id="modificar" popovertarget="popup-modificar"><i class='bx bxs-edit'></i></button>
-                <button id="agregar" popovertarget="popup-agregar"><i class='bx bx-plus'></i></button>
-            </div>
+    <!-- 2. Barra de opciones superior de  la tabla -->
+    <div class="section-sup">
+
+
+            <!-- 3. Contenedor de cantidad de elementos -->
+        <div class="number-products">
+            <label for="num">Mostrar </label>
+            <select name="" id="num" [(ngModel)]="selectedLimit">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+            </select>
+            <p> productos</p>
+        </div>
+
+
+            <!-- 4. Contenedor de la paginación -->
+        <div class="paginacion">
+            <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1"><i class='bx bx-chevron-left'></i></button>
+                <span>Página {{ currentPage }} de {{ totalPages }}</span>
+            <button (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages"><i class='bx bx-chevron-right'></i></button>
+        </div>
+
+
+        <!-- 5. Contenedor de los botones -->
+        <div class="container-buttons">
+            <button id="eliminar" popovertarget="popup-eliminar"><i class='bx bx-minus'></i></button>
+            <button id="modificar" popovertarget="popup-modificar"><i class='bx bxs-edit'></i></button>
+            <button id="agregar" popovertarget="popup-agregar"><i class='bx bx-plus'></i></button>
+        </div>
     
-            <div class="container-search">
-                <input type="text" name="buscar" placeholder="Buscar..." [(ngModel)]="filterPost">
-            </div>
+
+        <!-- 6. Contenedor de busqueda -->
+        <div class="container-search">
+            <input type="text" name="buscar" placeholder="Buscar..." [(ngModel)]="filterPost">
         </div>
 
-        <div class="container-tabla">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th id="name">Nombre</th>
-                        <th id="description">Descripción</th>
-                        <th>Tipo de medicamento</th>
-                        <th>Unidad de medida</th>
-                        <th>Edición/Borrado</th>
-                    </tr>
-                </thead>
+    </div>
 
-                <tbody>
-                    <tr *ngFor="let post of filteredPosts">
-                        <td>{{ post.id }}</td>
-                        <td>{{ post.product_name }}</td>
-                        <td>{{ post.description }}</td>
-                        <td>{{ post.type }}</td>
-                        <td>{{ post.measure_unit }}</td>
-                        <td>
-                            <button (click)="openEditPopup(post)" popovertarget="popup-modificar">
-                                <i class="bx bxs-edit"></i>
-                            </button>
-                            <button (click)="openDeletePopup(post.id)" popovertarget="popup-eliminar">
-                                <i class="bx bx-trash"></i>
-                            </button>
-                        </td>
+
+    <!-- 7. Contenedor de la tabla de datos -->
+    <div class="container-tabla">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th id="name">Nombre</th>
+                    <th id="description">Descripción</th>
+                    <th>Tipo de medicamento</th>
+                    <th>Unidad de medida</th>
+                    <th>Edición/Borrado</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let post of filteredPosts">
+                    <td>{{ post.id }}</td>
+                    <td>{{ post.product_name }}</td>
+                    <td>{{ post.description }}</td>
+                    <td>{{ post.type }}</td>
+                    <td>{{ post.measure_unit }}</td>
+                    <td>
+                        <button (click)="openEditPopup(post)" popovertarget="popup-modificar">
+                            <i class="bx bxs-edit"></i>
+                        </button>
+                        <button (click)="openDeletePopup(post.id)" popovertarget="popup-eliminar">
+                            <i class="bx bx-trash"></i>
+                        </button>
+                    </td>
                         
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <div class="pop-ups-fondo" popover id="popup-eliminar">
-        <div class="container-pop-up" id="pop-up-eliminar">
-            <div class="bar-sup">
-                <h2>Eliminar un producto</h2>
-                <button popovertarget="popup-eliminar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
-            </div>
-            <div class="form-eliminar">
-                <label for="ID-eliminar">ID del producto</label>
-                <input type="text" id="ID-eliminar" [(ngModel)]="productIdToDelete" readonly />
-                <button popovertarget="popup-eliminar" (click)="deleteProduct()" popovertargetaction="hide" type="submit" id="btn-eliminar">Eliminar</button>
-            </div>
+</section>
+
+
+<!-- 8. Sección de los pop-ups -->
+<!-- 9. Pop-up de eliminar -->
+<div class="pop-ups-fondo" popover id="popup-eliminar">
+    
+    
+    <!-- 10. Contenedor pop-up eliminar -->
+    <div id="pop-up-eliminar">
+        
+        
+        <!-- 11. Contenedor pop-up eliminar barra supeior -->
+        <div class="bar-sup">
+            <h2>Eliminar un producto</h2>
+            <button popovertarget="popup-eliminar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
+        </div>
+
+
+        <!-- 12. Contenedor del formulario de eliminación -->
+        <div id="form-eliminar">
+
+            <label for="ID-eliminar">ID del producto</label>
+            <input type="text" id="ID-eliminar" [(ngModel)]="productIdToDelete" readonly />
+            
+            <button popovertarget="popup-eliminar" (click)="deleteProduct()" popovertargetaction="hide" type="submit" id="btn-eliminar">Eliminar</button>
+        
         </div>
 
     </div>
-    <div class="pop-ups-fondo" popover id="popup-modificar">
-        <div class="container-pop-up" id="pop-up-mod">
-            <div class="bar-sup">
-                <h2>Modificar un producto</h2>
-                <button popovertarget="popup-modificar" popovertargetaction="hide">
-                    <i class='bx bx-x'></i>
-                </button>
-            </div>
-            <div class="forms">
-                <form id="form-mod" (ngSubmit)="updateProduct()" #formMod="ngForm">
-                    <label for="id-modificar">ID del producto</label>
-                    <input type="text" id="id-modificar" name="id" [(ngModel)]="editProduct.id" readonly />
 
-                    <label class="titulos-form">Nombre del producto</label>
-                    <input type="text" id="nombre-mod" name="product_name" [(ngModel)]="editProduct.product_name" required />
+</div>
 
-                    <label class="titulos-form">Descripción del producto</label>
-                    <textarea id="descripcion-mod" name="description" [(ngModel)]="editProduct.description" required></textarea>
 
-                    <label class="titulos-form">Tipo de producto</label>
-                    <input type="text" id="tipo-mod" name="type" [(ngModel)]="editProduct.type" required />
+<!-- 13. Pop-up de modificar -->
+<div class="pop-ups-fondo" popover id="popup-modificar">
 
-                    <label class="titulos-form">Unidad de medida</label>
-                    <select id="unidad-mod" name="measure_unit" [(ngModel)]="editProduct.measure_unit" required>
-                        <option value="mg">mg (miligramos)</option>
-                        <option value="g">gr (gramos)</option>
-                        <option value="mL">mL (mililitros)</option>
-                        <option value="UI">UI (Unid. intern.)</option>
-                        <option value="mcg">mcg (microgramos)</option>
-                    </select>
 
-                    <button popovertarget="popup-modificar" popovertargetaction="hide" type="submit" id="btn-mod">Modificar</button>
-                </form>
+    <!-- 14. Contenedor pop-up modificar -->
+    <div id="pop-up-mod">
 
-                <div class="imagen-producto-mod">
-                    <div class="fondo-imagen">
-                        <img src="imagen_defecto.png"  alt="Imagen producto" />
-                    </div>
-                    <input type="file" />
+
+        <!-- 15. Contenedor pop-up mod barra superior -->
+        <div class="bar-sup">
+            <h2>Modificar un producto</h2>
+            <button popovertarget="popup-modificar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
+        </div>
+
+
+        <!-- 16. Contenedor del formulario mod -->
+        <div class="forms">
+            <form id="form-mod" (ngSubmit)="updateProduct()" #formMod="ngForm">
+
+                <label for="id-modificar" id="label-id-mod">ID del producto</label>
+                <input type="text" id="id-modificar" name="id" [(ngModel)]="editProduct.id" readonly />
+
+                <label class="titulos-form">Nombre del producto</label>
+                <input type="text" id="nombre-mod" name="product_name" [(ngModel)]="editProduct.product_name" required />
+
+                <label class="titulos-form">Descripción del producto</label>
+                <textarea id="descripcion-mod" name="description" [(ngModel)]="editProduct.description" required></textarea>
+
+                <label class="titulos-form">Tipo de producto</label>
+                <input type="text" id="tipo-mod" name="type" [(ngModel)]="editProduct.type" required />
+
+                <label class="titulos-form">Unidad de medida</label>
+                <select id="unidad-mod" name="measure_unit" [(ngModel)]="editProduct.measure_unit" required>
+                    <option value="mg">mg (miligramos)</option>
+                    <option value="g">gr (gramos)</option>
+                    <option value="mL">mL (mililitros)</option>
+                    <option value="UI">UI (Unid. intern.)</option>
+                    <option value="mcg">mcg (microgramos)</option>
+                </select>
+
+                <button popovertarget="popup-modificar" popovertargetaction="hide" type="submit" id="btn-mod">Modificar</button>
+            
+            </form>
+
+            <!-- 17. Contenedor de la imagen del producto mod -->
+            <div class="imagen-producto-mod">
+
+                <div class="fondo-imagen">
+                    <img src="imagen_defecto.png"  alt="Imagen producto" />
                 </div>
+
+                <input type="file" class="send-file" />
+
             </div>
+
         </div>
+
     </div>
 
+</div>
 
-    <div class="pop-ups-fondo" popover id="popup-agregar">
-        <div class="container-pop-up" id="pop-up-agregar">
-            <div class="bar-sup">
-                <h2>Agregar un producto</h2>
-                <button popovertarget="popup-agregar" popovertargetaction="hide">
-                    <i class='bx bx-x'></i>
-                </button>
-            </div>
-            <div class="forms">
-                <form id="form-agregar" #formAgregar="ngForm" (ngSubmit)="addProduct()">
-                    <label class="titulos-form" id="nombre-agregar">Nombre del producto</label>
-                    <input type="text" name="product_name" [(ngModel)]="newProduct.product_name" required />
+<!-- 18. Pop-up de agregar -->
+<div class="pop-ups-fondo" popover id="popup-agregar">
 
-                    <label class="titulos-form">Descripción del producto</label>
-                    <textarea name="description" [(ngModel)]="newProduct.description" id="descripcion-agregar" required></textarea>
 
-                    <label class="titulos-form">Tipo de producto</label>
-                    <input type="text" name="type" [(ngModel)]="newProduct.type" required />
+    <!-- 19. Contenedor pop-up agregar -->
+    <div id="pop-up-agregar">
 
-                    <label class="titulos-form">Unidad de medida</label>
-                    <select name="measure_unit" [(ngModel)]="newProduct.measure_unit" id="unidad-agregar" required>
-                        <option value="mg">mg (miligramos)</option>
-                        <option value="g">g (gramos)</option>
-                        <option value="mL">mL (mililitros)</option>
-                        <option value="UI">UI (Unid. intern.)</option>
-                        <option value="mcg">mcg (microgramos)</option>
-                    </select>
 
-                    <button popovertarget="popup-agregar" popovertargetaction="hide" type="submit" id="btn-agregar">Agregar</button>
-                </form>
+        <!-- 20. Contenedor pop-up agregar barra superior -->
+        <div class="bar-sup">
+            <h2>Agregar un producto</h2>
+            <button popovertarget="popup-agregar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
+        </div>
 
-                <div class="imagen-producto-agregar">
-                    <div class="fondo-imagen">
-                        <img src="imagen_defecto.png" alt="" />
-                    </div>
-                    <input type="file" />
+
+        <!-- 21. Contenedor del formulario agregar -->
+        <div class="forms">
+            <form id="form-agregar" #formAgregar="ngForm" (ngSubmit)="addProduct()">
+
+                <label class="titulos-form" id="nombre-agregar">Nombre del producto</label>
+                <input type="text" name="product_name" [(ngModel)]="newProduct.product_name" required />
+
+                <label class="titulos-form">Descripción del producto</label>
+                <textarea name="description" [(ngModel)]="newProduct.description" id="descripcion-agregar" required></textarea>
+
+                <label class="titulos-form">Tipo de producto</label>
+                <input type="text" name="type" [(ngModel)]="newProduct.type" required />
+
+                <label class="titulos-form">Unidad de medida</label>
+                <select name="measure_unit" [(ngModel)]="newProduct.measure_unit" id="unidad-agregar" required>
+                    <option value="mg">mg (miligramos)</option>
+                    <option value="g">g (gramos)</option>
+                    <option value="mL">mL (mililitros)</option>
+                    <option value="UI">UI (Unid. intern.)</option>
+                    <option value="mcg">mcg (microgramos)</option>
+                </select>
+
+                <button popovertarget="popup-agregar" popovertargetaction="hide" type="submit" id="btn-agregar">Agregar</button>
+            
+            </form>
+
+
+            <!-- 22. Contenedor de la imagen del producto agregar -->
+            <div class="imagen-producto-agregar">
+
+                <div class="fondo-imagen">
+                    <img src="imagen_defecto.png" alt="" />
                 </div>
+                <input type="file" class="send-file"/>
+
             </div>
+
         </div>
+
     </div>
+
+</div>

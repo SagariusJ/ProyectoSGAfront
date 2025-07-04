@@ -1,3 +1,4 @@
+/* 1. Estilos generales */
 *{
     box-sizing:border-box;
     margin: 0;
@@ -9,6 +10,9 @@ body{
     background-color: #DFDFDF;
 }
 
+
+
+/* 2. Estilos de contenedor general */
 .lista-users{
     margin-top: 6.5vh;
     display: flex;
@@ -17,6 +21,9 @@ body{
     min-height: 90vh;
 }
 
+
+
+/* 3. Estilos de barra superior de opciones */
 .section-sup{
     width: 100vw;
     display: flex;
@@ -26,6 +33,9 @@ body{
     padding: 5px 160px;
 }
 
+
+
+/* 4. Estilos de contenedor de cantidad de datos */
 .number-products{
     display: flex;
     background-color: #00AD00;
@@ -51,13 +61,47 @@ body{
     font-weight: bold;
     border-radius: 5px;
     text-align: center;
-    width: 1.5em; /* ajusta el ancho según necesidad */
+    width: 1.5em; 
     height: 1.5em;
     cursor: pointer;
     margin-top: 0.15em;
     outline: none;
 }
 
+
+
+/* 5. Estilos de la paginación */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 7.5vh;
+    margin-left: 1vw;
+}
+
+.paginacion button {
+    display: flex;
+    padding: 0.45vw;
+    background-color: #00AD00;
+    color: white;
+    border: none;
+    border-radius: 2em;
+    cursor: pointer;
+}
+
+.paginacion button:hover{
+    background-color: #018a01;
+}
+
+.paginacion button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
+
+/* 6. Estilos de contenedor de botones */
 .container-buttons{
     margin-top: 6vh;
     margin-left: 32vw;
@@ -115,63 +159,13 @@ body{
     border: solid rgb(3, 121, 28) 2px;
 }
 
-.pop-ups-fondo{
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.274) ;
-}
 
-.container-pop-up{
-    background-color: rgb(230, 230, 230);
-    width: 60vw;
-    height: 80vh;
-    position: absolute;
-    top: 8vh;
-    left: 20vw;
-    border-radius: 0.5em;
-}
 
-.container-pop-up .bar-sup{
-    width: 60vw;
-    height: 7vh;
-    background-color: #00AD00;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 0.5em 0.5em 0em 0em;
-}
-
-.container-pop-up .bar-sup h2{
-    padding: 5px 20vw;
-    color: white;
-}
-
-.container-pop-up .bar-sup button{
-    width: 1.8vw;
-    height: 1.8vw;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5em;
-    margin-right: 0.5vw;
-    border: solid #DFDFDF 2px;
-}
-
-.container-pop-up .bar-sup button:hover{
-    background-color: rgb(223, 223, 223);
-    border: solid #bebebe 2px;
-}
-
-.container-pop-up .bar-sup i{
-    color: #00AD00;
-    font-size: 18px;
-}
-
+/* 7. Estilos contenedor de busqueda */
 .container-search {
     display: flex;
     align-items: center;
-    background-color: #00AD00; /* verde brillante */
+    background-color: #00AD00;
     padding: 5px 20px;
     border-radius: 10px;
     width: fit-content;
@@ -210,12 +204,14 @@ body{
     font-size: 22px;
 }
 
+
+
+/* 8. Estilos del contenedor de la tabla de datos */
 .container-tabla {
     margin-top: 4vh;
     padding: 0 10px;
 }
 
-/* Estilos generales de la tabla */
 table {
     width: 100%;
     border-collapse: separate;
@@ -224,25 +220,24 @@ table {
     color: white;
     border-radius: 10px;
     overflow: hidden;
+    border: none;
 }
 
-/* Cabecera */
 thead {
     background-color: #00AD00;
 }
 
-/* Celdas de la cabecera */
 th {
     text-align: left;
     padding: 10px 20px;
     font-weight: 700;
+    border: none;
 }
 
 #name{
     padding: 10px 120px;
 }
 
-/* Personalización específica de la columna de descripción */
 #date {
     padding: 10px 10px;
 }
@@ -251,20 +246,14 @@ th {
     padding: 10px 120px;
 }
 
-/* Cuerpo de la tabla vacío (por ahora sin estilos especiales) */
 tbody td {
     text-align: center;
     color: black;
-    background-color: #d3d3d3; /* gris claro como en la imagen */
+    background-color: #d3d3d3;
     padding: 15px;
-}
-
-/* Eliminar bordes visibles */
-table, th, td {
     border: none;
 }
 
-/* Redondear solo los bordes superiores de la cabecera */
 thead th:first-child {
     border-top-left-radius: 10px;
 }
@@ -273,28 +262,73 @@ thead th:last-child {
     border-top-right-radius: 10px;
 }
 
-#pop-up-mod{
-    height: 90vh;
-    top: 5vh;
-}
 
-#pop-up-agregar{
-    height: 90vh;
-    top: 5vh;
-}
 
-#pop-up-eliminar{
-    height: 55vh;
+/* 9. Estilos del contenedor de los pop-ups */
+.pop-ups-fondo{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.274) ;
 }
 
 .forms{
-    width: 60vw;
+    width: 50vw;
     display: flex;
     align-items: center;
 }
 
+
+
+/* 10. Estilos del contenedor pop-up eliminar */
+#pop-up-eliminar{
+    height: 55vh;
+    width: 50vw;
+    position: absolute;
+    top: 10vh;
+    left: 25vw;
+    border-radius: 0.5em;
+    background-color: rgb(230, 230, 230);
+}
+
+#pop-up-eliminar .bar-sup{
+    height: 7vh;
+    width: 50vw;
+    background-color: #00AD00;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0.5em 0.5em 0em 0em;
+}
+
+#pop-up-eliminar .bar-sup h2{
+    padding: 5px 10vw 5px 20vw;
+    color: white;
+}
+
+#pop-up-eliminar .bar-sup button{
+    width: 1.8vw;
+    height: 1.8vw;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5em;
+    margin-right: 0.5vw;
+    border: solid #DFDFDF 2px;
+}
+
+#pop-up-eliminar .bar-sup button:hover{
+    background-color: rgb(223, 223, 223);
+    border: solid #bebebe 2px;
+}
+
+#pop-up-eliminar .bar-sup i{
+    color: #00AD00;
+    font-size: 18px;
+}
+
 #form-eliminar{
-  width: 60vw;
+  width: 50vw;
   display: flex;
   flex-direction: column;
 }
@@ -328,23 +362,86 @@ thead th:last-child {
     resize: none;
 }
 
-#form-mod,
-#form-agregar{
+#btn-eliminar{
+    width: 8vw;
+    height: 4vh;
+    border-radius: 2em;
+    margin-left: 26vw;
+    margin-top: 2vh;
+    background-color: rgb(201, 61, 61);
+    border: solid rgb(172, 27, 27) 2px;
+    cursor: pointer;
+    color: white;
+}
+
+#btn-eliminar:hover{
+    background-color: rgb(185, 42, 42);
+    border: solid rgb(143, 11, 11) 2px;
+}
+
+
+/* 11. Estilos del contenedor pop-up mod */
+#pop-up-mod{
+    height: 90vh;
+    width: 50vw;
+    position: absolute;
+    top: 5vh;
+    left: 25vw;
+    border-radius: 0.5em;
+    background-color: rgb(230, 230, 230);
+}
+
+#pop-up-mod .bar-sup{
+    width: 50vw;
+    height: 7vh;
+    background-color: #00AD00;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0.5em 0.5em 0em 0em;
+}
+
+#pop-up-mod .bar-sup h2{
+    padding: 5px 20vw;
+    color: white;
+}
+
+#pop-up-mod .bar-sup button{
+    width: 1.8vw;
+    height: 1.8vw;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5em;
+    margin-right: 0.5vw;
+    border: solid #DFDFDF 2px;
+}
+
+#pop-up-mod .bar-sup button:hover{
+    background-color: rgb(223, 223, 223);
+    border: solid #bebebe 2px;
+}
+
+#pop-up-mod .bar-sup i{
+    color: #00AD00;
+    font-size: 18px;
+}
+
+#form-mod {
     display: flex;
     flex-direction: column;
     height: 80vh;
-    width: 32vw;
+    width: 48vw;
     margin-left: 2vw;
 }
 
-#form-mod label,
-#form-agregar label{
+#form-mod label{
     width: 20vw;
     padding: 1.5vh;
     font-size: 14px;
 }
 
-#form-agregar input,
 #form-mod input{
     height: 4vh;
     border-radius: 0.4em;
@@ -354,54 +451,30 @@ thead th:last-child {
     margin-left: 1vw;
 }
 
-#label-rut-agregar,
 #label-rut-mod{
     margin-top: 1vw;
 }
 
-#rut-agregar,
+#label-rut-mod{
+    margin-top: 1vw;
+}
+
 #rut-modificar{
     width: 10vw;
 }
 
-#fecha-agregar,
 #fecha-mod{
     width: 8vw;
 }
 
-#edad-agregar,
 #edad-mod{
     width: 2.25vw;
 }
 
-#beneficio-agregar,
 #beneficio-mod,
-#region-agregar,
 #region-mod,
-#comuna-agregar,
 #comuna-mod{
     width: 15vw;
-}
-
-#btn-agregar{
-    width: 8vw;
-    height: 4vh;
-    border-radius: 2em;
-    margin-left: 26vw;
-    background-color: rgb(33, 179, 65);
-    border: solid rgb(14, 150, 43) 2px;
-    cursor: pointer;
-    display: flex;
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    bottom: 1vw;
-}
-
-#btn-agregar:hover{
-    background-color: rgb(15, 165, 48);
-    border: solid rgb(3, 121, 28) 2px;
 }
 
 #btn-mod{
@@ -426,47 +499,117 @@ thead th:last-child {
     border: solid rgb(15, 96, 143) 2px;
 }
 
-#btn-eliminar{
+
+/* 12. Estilos del contenedor pop-up agregar */
+#pop-up-agregar{
+    height: 90vh;
+    width: 50vw;
+    position: absolute;
+    top: 5vh;
+    left: 25vw;
+    border-radius: 0.5em;
+    background-color: rgb(230, 230, 230);
+}
+
+#pop-up-agregar .bar-sup{
+    width: 50vw;
+    height: 7vh;
+    background-color: #00AD00;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0.5em 0.5em 0em 0em;
+}
+
+#pop-up-agregar .bar-sup h2{
+    padding: 5px 20vw;
+    color: white;
+}
+
+#pop-up-agregar .bar-sup button{
+    width: 1.8vw;
+    height: 1.8vw;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5em;
+    margin-right: 0.5vw;
+    border: solid #DFDFDF 2px;
+}
+
+#pop-up-agregar .bar-sup button:hover{
+    background-color: rgb(223, 223, 223);
+    border: solid #bebebe 2px;
+}
+
+#pop-up-agregar .bar-sup i{
+    color: #00AD00;
+    font-size: 18px;
+}
+
+#form-agregar{
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    width: 48vw;
+    margin-left: 2vw;
+}
+
+#form-agregar label{
+    width: 20vw;
+    padding: 1.5vh;
+    font-size: 14px;
+}
+
+#form-agregar input {
+    height: 4vh;
+    border-radius: 0.4em;
+    border: solid rgb(223, 223, 223) 0.15em;
+    outline: none;
+    padding: 1vh;
+    margin-left: 1vw;
+}
+
+#label-rut-agregar{
+    margin-top: 1vw;
+}
+
+#rut-agregar{
+    width: 10vw;
+}
+
+#fecha-agregar{
+    width: 8vw;
+}
+
+#edad-agregar{
+    width: 2.25vw;
+}
+
+#beneficio-agregar,
+#region-agregar,
+#comuna-agregar{
+    width: 15vw;
+}
+
+#btn-agregar{
     width: 8vw;
     height: 4vh;
     border-radius: 2em;
     margin-left: 26vw;
-    margin-top: 2vh;
-    background-color: rgb(201, 61, 61);
-    border: solid rgb(172, 27, 27) 2px;
+    background-color: rgb(33, 179, 65);
+    border: solid rgb(14, 150, 43) 2px;
     cursor: pointer;
-    color: white;
-}
-
-#btn-eliminar:hover{
-    background-color: rgb(185, 42, 42);
-    border: solid rgb(143, 11, 11) 2px;
-}
-
-.paginacion {
     display: flex;
-    justify-content: center;
+    position: absolute;
     align-items: center;
-    gap: 1rem;
-    margin-top: 7.5vh;
-    margin-left: 1vw;
-}
-
-.paginacion button {
-    display: flex;
-    padding: 0.45vw;
-    background-color: #00AD00;
+    justify-content: center;
     color: white;
-    border: none;
-    border-radius: 2em;
-    cursor: pointer;
+    bottom: 1vw;
 }
 
-.paginacion button:hover{
-    background-color: #018a01;
-}
-
-.paginacion button[disabled] {
-    background-color: #ccc;
-    cursor: not-allowed;
+#btn-agregar:hover{
+    background-color: rgb(15, 165, 48);
+    border: solid rgb(3, 121, 28) 2px;
 }

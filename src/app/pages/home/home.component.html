@@ -1,79 +1,112 @@
+<!-- 1. Contenedor general del primer carrusel -->
 <div class="cont-sup-btns">
+
   <button class="carousel-btn prev" (click)="prevSlide()">&#10094;</button>
+
+  <!-- 2. Contenedor del carrusel -->
   <div class="cont-sup">
+
     <div class="carousel-container">
+
       <div class="carousel-track" [style.transform]="carouselTransform">
         <img *ngFor="let slide of slidesArriba; let i = index"[src]="slide.imagen"[alt]="slide.alt"class="carousel-slide">
       </div>
+      
     </div>
 
     <div class="carousel-dots">
-      <span 
-        class="dot" 
-        *ngFor="let _ of slides; let i = index" 
-        [class.active]="currentIndex === i" 
-        (click)="goToSlide(i)">
-      </span>
+      <span class="dot" *ngFor="let _ of slides; let i = index" [class.active]="currentIndex === i" (click)="goToSlide(i)"> </span>
     </div>
+
   </div>
+
   <button class="carousel-btn next" (click)="nextSlide()">&#10095;</button>
+
 </div>
 
+
+<!-- 3. Contenedor de las categorias -->
 <div class="cont-categorias">
   <h2>Categorias mas populares</h2>
+
+
+  <!-- 4. Contenedor de los botones de categorias -->
   <div class="cont-btns">
+
     <div class="cont-btn">
       <button id="cat-1"><i class='bx bxs-capsule'></i></button>
       <p>Analgésicos</p>
     </div>
+
     <div class="cont-btn">
       <button id="cat-2"><i class='bx bx-capsule'></i></button>
       <p>Antibióticos</p>
     </div>
+
     <div class="cont-btn">
       <button id="cat-3"><i class='bx bxs-virus'></i></button>
       <p>Antigripales</p>
     </div>
+
     <div class="cont-btn">
       <button id="cat-4"><i class='bx bx-check-shield'></i></button>
       <p>Gastrointestinales</p>
     </div>
+
     <div class="cont-btn">
       <button id="cat-5"><i class='bx bx-plus-medical'></i></button>
       <p>Vitaminas y Suplementos</p>
     </div>
+
     <div class="cont-btn">
       <button id="cat-6"><i class='bx bx-spray-can'></i></button>
       <p>Antialérgicos</p>
     </div>
+
   </div>
+
 </div>
 
+
+<!-- 5. Separador decorativo -->
 <div class="separado-catergorias"></div>
 
+
+<!-- 6. Contenedor del titulo de ofertas -->
 <div class="cont-ofertas">
   <h2>Ofertas Destacadas</h2>
 </div>
 
+
+<!-- 7. Carrusel de productos -->
 <div class="product-carousel-wrapper">
+
   <div class="carousel-controls">
+
     <button (click)="mostrarPrev()" class="carousel-arrow">&#10094;</button>
 
     <div class="product-carousel">
-      <div
-        class="product-card"
-        *ngFor="let producto of productos | sliceProducts: startIndex : 4"
-      >
+
+      <div class="product-card" *ngFor="let producto of productos | sliceProducts: startIndex : 4">
+
         <img [src]="producto.imagen" alt="{{ producto.titulo }}" class="product-img" />
+
         <div class="product-info">
+
           <h4 class="product-title">{{ producto.titulo }}</h4>
           <p class="product-desc">{{ producto.descripcion }}</p>
           <p class="product-price">$ {{ producto.precio }}</p>
+
         </div>
+
         <button class="add-to-cart">Agregar</button>
+
       </div>
+
     </div>
 
     <button (click)="mostrarNext()" class="carousel-arrow">&#10095;</button>
+
   </div>
+
 </div>

@@ -1,4 +1,3 @@
-
 <!-- Barra superior -->
 <header class="header">
   <div id="logo">
@@ -10,21 +9,34 @@
   <nav>
     <ul class="nav-links">
       <li><a [routerLink]="'/checkout'"><i class="bx bx-cart"></i></a></li>
-      <li><a [routerLink]="'/login'"><i class="bx bxs-user-circle"></i></a></li>
-      <li><a [routerLink]="'/user'"><i class="bx bxs-user-circle"></i></a></li>
+
+      <!-- Mostrar solo si NO está logeado -->
+      <li *ngIf="!isLoggedIn()">
+        <a [routerLink]="'/login'"><i class="bx bxs-user-circle"></i></a>
+      </li>
+
+      <!-- Mostrar solo si está logeado -->
+      <li *ngIf="isLoggedIn()">
+        <a [routerLink]="'/user'"><i class="bx bxs-user-circle"></i></a>
+      </li>
+
+      <!-- Botón de logout solo si está logeado -->
+      <li *ngIf="isLoggedIn()">
+        <a href="#" (click)="logout()" title="Cerrar sesión">
+          <i class="bx bx-log-out"></i>
+        </a>
+      </li>
 
       <li><i class="bx bx-menu" (click)="openMenu()"></i></li>
     </ul>
   </nav>
 </header>
 
-
 <!-- División decoración -->
 <div class="divisor"></div>
 
-
 <!-- Menú lateral desplegable -->
-<div  id="side-menu-overlay" class="menu-overlay hidden" (click)="closeMenu()">
+<div id="side-menu-overlay" class="menu-overlay hidden" (click)="closeMenu()">
   <div id="side-menu" class="side-menu" (click)="$event.stopPropagation()">
     <span class="close-btn" (click)="closeMenu()">&#10005;</span>
     <nav class="side-menu-links">
@@ -36,16 +48,14 @@
       <a [routerLink]="'/inventario'">Gestión inventario</a>
       <a [routerLink]="'/userlist'">Lista de Usuarios</a>
       <a [routerLink]="'/beneficios'">Lista Beneficios</a>
-      <a href="#">Opción 6</a>
+      <a [routerLink]="'/'">Gestión de usuarios</a>
       <a href="#">Opción 7</a>
     </nav>
   </div>
 </div>
 
-
 <!-- app.component.html -->
 <router-outlet></router-outlet>
-
 
 <!-- Barra footer -->
 <footer>
@@ -54,15 +64,9 @@
     <h3>Farmacia Caliz</h3>
 
     <div class="footer-redes-sociales">
-      <a href="#" class="redes-sociales"
-        ><i class="bx bxl-facebook-circle"></i
-      ></a>
-      <a href="#" class="redes-sociales"
-        ><i class="bx bxl-instagram"></i
-      ></a>
-      <a href="#" class="redes-sociales"
-        ><i class="bx bxl-linkedin"></i
-      ></a>
+      <a href="#" class="redes-sociales"><i class="bx bxl-facebook-circle"></i></a>
+      <a href="#" class="redes-sociales"><i class="bx bxl-instagram"></i></a>
+      <a href="#" class="redes-sociales"><i class="bx bxl-linkedin"></i></a>
     </div>
   </div>
 
@@ -81,6 +85,5 @@
   </div>
 </footer>
 
-
-<!-- Linea de derechos de autor -->
+<!-- Línea de derechos de autor -->
 <div class="end-page">Todos los derechos reservados &#169;</div>

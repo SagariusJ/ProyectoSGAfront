@@ -10,6 +10,7 @@ import { UsuarioComponent } from './pages/usuario/usuario.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { Component } from '@angular/core';
 import { BeneficiosComponent } from './pages/beneficios/beneficios.component';
+import { FraccionamientoComponent } from './pages/fraccionamiento/fraccionamiento.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -22,5 +23,6 @@ export const routes: Routes = [
     { path: 'user', component: UsuarioComponent},
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent},
-    { path: 'beneficios', component: BeneficiosComponent}
+    { path: 'beneficios', component: BeneficiosComponent},
+    { path: 'fraccionamiento', component: FraccionamientoComponent}
 ];

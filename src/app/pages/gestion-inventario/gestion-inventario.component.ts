@@ -21,15 +21,6 @@ export class GestionInventarioComponent implements OnInit {
   currentPage = 1;
   selectedLimit = 5;
   filterPost = "";
-
-  decodeJWT(token: string): any {
-    try {
-      return JSON.parse(atob(token.split('.')[1]));
-    } catch (e) {
-      console.error('Error al decodificar token JWT', e);
-      return null;
-    }
-  }
   posts: StockWare[] = [];
 
   productsList: Products[] = [];
@@ -79,11 +70,6 @@ export class GestionInventarioComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      console.error('No se encontró token');
-      return;
-    }
     this.loadProducts();
     this.loadWarehouses();
     this.loadStock();

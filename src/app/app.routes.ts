@@ -11,6 +11,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { Component } from '@angular/core';
 import { BeneficiosComponent } from './pages/beneficios/beneficios.component';
 import { FraccionamientoComponent } from './pages/fraccionamiento/fraccionamiento.component';
+import { DispersionComponent } from './pages/dispersion/dispersion.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -24,5 +25,6 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent},
     { path: 'beneficios', component: BeneficiosComponent},
-    { path: 'fraccionamiento', component: FraccionamientoComponent}
+    { path: 'fraccionamiento', component: FraccionamientoComponent},
+    { path: 'dispersion', component: DispersionComponent }
 ];

@@ -1,102 +1,100 @@
-<!-- Contenedor general -->
 <section class="fraccionamiento">
 
-
-  <!-- Notificación -->
-  <div *ngIf="mensaje" class="notificacion" [class.exito]="mensaje.tipo === 'exito'" [class.error]="mensaje.tipo === 'error'">
+  <div
+    *ngIf="mensaje"
+    class="notificacion"
+    [class.exito]="mensaje.tipo === 'exito'"
+    [class.error]="mensaje.tipo === 'error'"
+  >
     {{ mensaje.texto }}
   </div>
-
 
   <div class="cont-titulo">
     <h2>Fraccionamiento de productos</h2>
   </div>
 
-
-  <!-- Contenedor selectores de las sucursales -->
   <div class="superior-selectores">
-
     <div class="cont-emisor">
-      <label for="">Sucursal emisora</label>
-      <select id="emisor" [(ngModel)]="emisorSeleccionado" (change)="onEmisorChange()" [disabled]="cargando">
-
-        <option [ngValue]="null" disabled selected>
-
+      <label for="emisor">Sucursal emisora</label>
+      <select
+        id="emisor"
+        name="emisor"
+        [(ngModel)]="emisorSeleccionado"
+        (change)="onEmisorChange()"
+        [disabled]="cargando"
+      >
+        <option [ngValue]="null" disabled>
           {{ cargando ? 'Cargando...' : 'Seleccione emisor' }}
-
         </option>
-
-        <option *ngFor="let sucursal of sucursales" [value]="sucursal.id">
-
+        <option
+          *ngFor="let sucursal of sucursales"
+          [ngValue]="sucursal.id"
+        >
           {{ sucursal.warehouse_Name }} - {{ sucursal.direction }}
-
         </option>
-
       </select>
     </div>
 
-
-    <i class='bx bx-chevrons-right'></i>
-
+    <i class="bx bx-chevrons-right"></i>
 
     <div class="cont-destino">
-      <label for="">Sucursal de destino</label>
-      <select id="destinatario" [(ngModel)]="destinatarioSeleccionado" [disabled]="cargando || !emisorSeleccionado">
-
-        <option [ngValue]="null" disabled selected>
-
-          {{ !emisorSeleccionado ? 'Seleccione emisor primero' : 'Seleccione destinatario' }}
-
+      <label for="destinatario">Sucursal de destino</label>
+      <select
+        id="destinatario"
+        name="destinatario"
+        [(ngModel)]="destinatarioSeleccionado"
+        [disabled]="cargando || !emisorSeleccionado"
+      >
+        <option [ngValue]="null" disabled>
+          {{ !emisorSeleccionado
+            ? 'Seleccione emisor primero'
+            : 'Seleccione destinatario' }}
         </option>
-
-        <option *ngFor="let sucursal of sucursalesDestinatario" [value]="sucursal.id">
-
+        <option
+          *ngFor="let sucursal of sucursalesDestinatario"
+          [ngValue]="sucursal.id"
+        >
           {{ sucursal.warehouse_Name }} - {{ sucursal.direction }}
-
         </option>
-
       </select>
     </div>
-    
-
   </div>
 
-  <!-- Contenedor de las opciones -->
   <div class="opciones">
-
     <form>
-
       <label for="productos">Producto</label>
-      <select id="productos" [(ngModel)]="productoSeleccionado" name="producto" [disabled]="cargando">
-
-        <option [ngValue]="null" disabled selected>
-
+      <select
+        id="productos"
+        name="producto"
+        [(ngModel)]="productoSeleccionado"
+        [disabled]="cargando"
+      >
+        <option [ngValue]="null" disabled>
           {{ cargando ? 'Cargando...' : 'Seleccione un producto' }}
-
         </option>
-
-        <option *ngFor="let producto of productos" [value]="producto.id">
-
+        <option
+          *ngFor="let producto of productos"
+          [ngValue]="producto.id"
+        >
           {{ producto.product_name }} ({{ producto.measure_unit }})
-
         </option>
-
       </select>
 
       <label for="cantidad-input">Cantidad del producto</label>
-      <input type="number" id="cantidad-input" [(ngModel)]="cantidad" name="cantidad" min="1" [disabled]="cargando">
-
+      <input
+        type="number"
+        id="cantidad-input"
+        name="cantidad"
+        [(ngModel)]="cantidad"
+        min="1"
+        [disabled]="cargando"
+      />
     </form>
-
   </div>
 
-  <!-- contenedor del boton y el mensaje -->
   <div class="btn-mensaje">
-
     <button id="btn-envio" (click)="enviar()" [disabled]="cargando">
       {{ cargando ? 'Procesando...' : 'Enviar' }}
     </button>
-
   </div>
-  
 </section>

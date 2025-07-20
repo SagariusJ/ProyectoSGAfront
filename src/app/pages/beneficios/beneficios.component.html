@@ -1,6 +1,10 @@
+
 <section class="fondo-seccion">
+  
   <div class="section-sup">
+    
     <div class="number-products">
+      
       <label for="num">Mostrar </label>
       <select id="num" [(ngModel)]="selectedLimit">
         <option value="5">5</option>
@@ -8,40 +12,54 @@
         <option value="15">15</option>
       </select>
       <p> beneficios</p>
+
     </div>
 
+    
     <div class="paginacion">
-      <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1">
-        <i class='bx bx-chevron-left'></i>
-      </button>
+      
+      <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1"><i class='bx bx-chevron-left'></i></button>
+
       <span>Página {{ currentPage }} de {{ totalPages }}</span>
-      <button (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages">
-        <i class='bx bx-chevron-right'></i>
-      </button>
+
+      <button (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages"><i class='bx bx-chevron-right'></i></button>
+
     </div>
 
     <div class="container-buttons">
+
       <button id="agregar" popovertarget="popup-agregar"><i class='bx bx-plus'></i></button>
+
     </div>
 
     <div class="container-search">
+
       <input type="text" placeholder="Buscar..." [(ngModel)]="filterPost">
+
     </div>
+
   </div>
 
   <div class="container-tabla">
+
     <table>
+
       <thead>
+
         <tr>
-          <th>Id</th>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Descuento</th>
-          <th>Acción</th>
+          <th id="id-benef">Id</th>
+          <th id="beneficio_name">Nombre</th>
+          <th id="descripcion">Descripción</th>
+          <th id="desc">Descuento</th>
+          <th id="borrado_benef">Acción</th>
         </tr>
+
       </thead>
+
       <tbody>
+
         <tr *ngFor="let post of filteredPosts">
+
           <td>{{ post.id }}</td>
           <td>{{ post.name }}</td>
           <td>{{ post.description }}</td>
@@ -51,35 +69,57 @@
               <i class="bx bx-trash"></i>
             </button>
           </td>
+
         </tr>
+
       </tbody>
+
     </table>
+
   </div>
 
   <!-- Popup Eliminar -->
   <div class="pop-ups-fondo" popover id="popup-eliminar">
+
     <div class="container-pop-up">
+
       <div class="bar-sup">
+
         <h2>Eliminar un beneficio</h2>
         <button popovertarget="popup-eliminar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
+
       </div>
+
       <div class="form-eliminar">
+
         <label for="ID-eliminar">ID del beneficio</label>
         <input type="text" id="ID-eliminar" [value]="beneficioEliminarId" readonly>
+
         <button popovertarget="popup-eliminar" popovertargetaction="hide" (click)="eliminarBeneficio()" id="btn-eliminar">Eliminar</button>
+
       </div>
+
     </div>
+
   </div>
+
 
   <!-- Popup Agregar -->
   <div class="pop-ups-fondo" popover id="popup-agregar">
-    <div class="container-pop-up">
+
+    <div class="container-pop-up" id="cont-popup-agregar">
+
       <div class="bar-sup">
+
         <h2>Agregar Beneficio</h2>
         <button popovertarget="popup-agregar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
+
       </div>
+
       <div class="forms">
-        <form #formAgregar="ngForm" (ngSubmit)="agregarBeneficio()">
+
+        <form #formAgregar="ngForm" (ngSubmit)="agregarBeneficio()" id="form-agregar">
+
           <label class="titulos-form">Nombre del beneficio</label>
           <input type="text" name="beneficio_name" [(ngModel)]="beneficio_name" required>
 
@@ -87,11 +127,16 @@
           <textarea name="descripcion_benef" [(ngModel)]="descripcion_benef" required></textarea>
 
           <label class="titulos-form">Descuento (%)</label>
-          <input type="number" name="descuento_benef" [(ngModel)]="descuento_benef" min="0" required>
+          <input type="number" id="desc_benef" name="descuento_benef" [(ngModel)]="descuento_benef" min="0" required>
 
           <button type="submit" id="btn-agregar" popovertarget="popup-agregar" popovertargetaction="hide">Agregar</button>
+
         </form>
+
       </div>
+
     </div>
+
   </div>
+  
 </section>

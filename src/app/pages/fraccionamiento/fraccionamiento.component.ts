@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { SucursalService, Warehouse } from '../../services/sucursal.service';
 import { MedicamentoService, Products } from '../../services/medicamento.service';
-import { FraccionamientoService } from '../../services/fraccionamiento.service';
+import {
+  FraccionamientoService,
+  Fraccionamiento
+} from '../../services/fraccionamiento.service';
 import { NotificacionService } from '../../services/notificaciones.service';
+import { AuthService } from '../../services/auth.service';  // <<— Import
 
 @Component({
   selector: 'app-fraccionamiento',
@@ -17,45 +22,75 @@ export class FraccionamientoComponent implements OnInit {
   sucursales: Warehouse[] = [];
   productos: Products[] = [];
   sucursalesDestinatario: Warehouse[] = [];
-  
-  // Valores seleccionados
+
   emisorSeleccionado: number | null = null;
   destinatarioSeleccionado: number | null = null;
   productoSeleccionado: number | null = null;
   cantidad: number = 0;
+  usuarioId: number = 0;
 
-  // Estado de carga
   cargando = false;
-  mensaje: {texto: string, tipo: string} | null = null;
+  mensaje: { texto: string; tipo: string } | null = null;
 
   constructor(
     private sucursalService: SucursalService,
     private medicamentoService: MedicamentoService,
     private fraccionamientoService: FraccionamientoService,
-    private notificacionService: NotificacionService
+    private notificacionService: NotificacionService,
+    private authService: AuthService              // <<— Inject
   ) {}
 
   ngOnInit(): void {
+    // 1. Verificar login
+    if (!this.authService.isLoggedIn()) {
+      this.notificacionService.mostrarMensaje(
+        'Debe iniciar sesión para fraccionar productos',
+        'error'
+      );
+      return;
+    }
+
+    // 2. Extraer usuarioId desde el token JWT
+    this.usuarioId = this.extractUserIdFromToken() || 0;
+
+    // 3. Cargar datos iniciales
     this.cargarSucursales();
     this.cargarProductos();
-    
-    // Suscribirse a notificaciones
-    this.notificacionService.mensajeActual.subscribe(mensaje => {
-      this.mensaje = mensaje;
-    });
+
+    this.notificacionService.mensajeActual.subscribe(
+      m => (this.mensaje = m)
+    );
+  }
+
+  private extractUserIdFromToken(): number | null {
+    const token = this.authService.getToken();
+    if (!token) {
+      return null;
+    }
+    try {
+      const payload = token.split('.')[1];
+      const decoded = JSON.parse(atob(payload));
+      return decoded.userId ?? decoded.usuarioId ?? null;
+    } catch {
+      console.warn('Token inválido, no se pudo extraer usuarioId');
+      return null;
+    }
   }
 
   cargarSucursales(): void {
     this.cargando = true;
     this.sucursalService.getAll().subscribe({
-      next: (data) => {
+      next: data => {
         this.sucursales = data;
         this.sucursalesDestinatario = [...data];
         this.cargando = false;
       },
-      error: (error) => {
-        console.error('Error al cargar sucursales', error);
-        this.notificacionService.mostrarMensaje('Error al cargar sucursales', 'error');
+      error: err => {
+        console.error('Error al cargar sucursales', err);
+        this.notificacionService.mostrarMensaje(
+          'Error al cargar sucursales',
+          'error'
+        );
         this.cargando = false;
       }
     });
@@ -64,13 +99,16 @@ export class FraccionamientoComponent implements OnInit {
   cargarProductos(): void {
     this.cargando = true;
     this.medicamentoService.getAll().subscribe({
-      next: (data) => {
+      next: data => {
         this.productos = data;
         this.cargando = false;
       },
-      error: (error) => {
-        console.error('Error al cargar productos', error);
-        this.notificacionService.mostrarMensaje('Error al cargar productos', 'error');
+      error: err => {
+        console.error('Error al cargar productos', err);
+        this.notificacionService.mostrarMensaje(
+          'Error al cargar productos',
+          'error'
+        );
         this.cargando = false;
       }
     });
@@ -79,9 +117,8 @@ export class FraccionamientoComponent implements OnInit {
   onEmisorChange(): void {
     if (this.emisorSeleccionado) {
       this.sucursalesDestinatario = this.sucursales.filter(
-        sucursal => sucursal.id !== this.emisorSeleccionado
+        s => s.id !== this.emisorSeleccionado
       );
-      
       if (this.destinatarioSeleccionado === this.emisorSeleccionado) {
         this.destinatarioSeleccionado = null;
       }
@@ -91,29 +128,44 @@ export class FraccionamientoComponent implements OnInit {
   }
 
   enviar(): void {
-    if (!this.emisorSeleccionado || !this.destinatarioSeleccionado || !this.productoSeleccionado || this.cantidad <= 0) {
-      this.notificacionService.mostrarMensaje('Todos los campos son obligatorios y la cantidad debe ser mayor a 0', 'error');
+    if (
+      !this.emisorSeleccionado ||
+      !this.destinatarioSeleccionado ||
+      !this.productoSeleccionado ||
+      this.cantidad <= 0
+    ) {
+      this.notificacionService.mostrarMensaje(
+        'Todos los campos son obligatorios y la cantidad debe ser mayor a 0',
+        'error'
+      );
       return;
     }
 
-    const datosTransferencia = {
-      origen_id: this.emisorSeleccionado,
-      destino_id: this.destinatarioSeleccionado,
-      producto_id: this.productoSeleccionado,
+    const datos: Fraccionamiento = {
+      productoId: this.productoSeleccionado,
       cantidad: this.cantidad,
-      fecha: new Date().toISOString()
+      sucursalOrigenId: this.emisorSeleccionado,
+      sucursalDestinoId: this.destinatarioSeleccionado,
+      fecha: new Date().toISOString(),
+      usuarioId: this.usuarioId
     };
 
     this.cargando = true;
-    this.fraccionamientoService.realizarTransferencia(datosTransferencia).subscribe({
+    this.fraccionamientoService.create(datos).subscribe({
       next: () => {
-        this.notificacionService.mostrarMensaje('Transferencia realizada con éxito', 'exito');
+        this.notificacionService.mostrarMensaje(
+          'Transferencia realizada con éxito',
+          'exito'
+        );
         this.resetFormulario();
         this.cargando = false;
       },
-      error: (error) => {
-        console.error('Error al realizar transferencia', error);
-        this.notificacionService.mostrarMensaje('Error al realizar transferencia', 'error');
+      error: err => {
+        console.error('Error al realizar transferencia', err);
+        this.notificacionService.mostrarMensaje(
+          'Error al realizar transferencia',
+          'error'
+        );
         this.cargando = false;
       }
     });

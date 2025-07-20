@@ -1,126 +1,133 @@
 <section class="dispersion">
 
-<div class="cont-titulo">
-    <h2>Modulo de dispersión</h2>
-</div>
+  <div class="cont-titulo">
+    <h2>Módulo de dispersión</h2>
+  </div>
 
-<div class="section-sup">
+  <div class="section-sup">
 
     <!-- 3. Contenedor de cantidad de elementos -->
-        <div class="number-dispersions">
-                <label for="num">Mostrar </label>
-                <select name="" id="num" [(ngModel)]="selectedLimit">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                <option value="15">15</option>
-            </select>
-            <p> dispersiones</p>
-        </div>
-
-
-        <!-- 4. Contenedor de la paginación -->
-        <div class="paginacion">
-            <!-- <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1"><i class='bx bx-chevron-left'></i></button><span>Página {{ currentPage }} de {{ totalPages }}</span><button (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages"><i class='bx bx-chevron-right'></i></button>
-        -->
-        </div>
-
-
-        <!-- 5. Contenedor de los botones -->
-        <div class="container-buttons">
-            <button id="eliminar" popovertarget="popup-eliminar"><i class='bx bx-minus'></i></button>
-            <button id="agregar" popovertarget="popup-agregar"><i class='bx bx-plus'></i></button>
-        </div>
-    
-
-        <!-- 6. Contenedor de busqueda -->
-        <div class="container-search">
-            <input type="text" name="buscar" placeholder="Buscar..." [(ngModel)]="filterPost">
-        </div>
-
-</div>
-
-<div class="container-tabla">
-        <table>
-            <thead>
-                <tr>
-                    <th id="id-dispersion">ID Dispersion</th>
-                    <th id="id-usuario">ID usuario</th>
-                    <th id="id-producto">ID producto</th>
-                    <th id="fecha">Fecha de emision</th>
-                    <th id="cant">Cantidad</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="number-dispersions">
+      <label for="num">Mostrar </label>
+      <select name="" id="num" [(ngModel)]="selectedLimit" (change)="onLimitChange()">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <p> dispersiones</p>
     </div>
+
+    <!-- 4. Contenedor de la paginación -->
+    <div class="paginacion">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">
+        <i class='bx bx-chevron-left'></i>
+      </button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+        <i class='bx bx-chevron-right'></i>
+      </button>
+    </div>
+
+    <!-- 5. Contenedor de los botones -->
+    <div class="container-buttons">
+      <button id="eliminar" (click)="openDeleteModal()" popovertarget="popup-eliminar">
+        <i class='bx bx-minus'></i>
+      </button>
+      <button id="agregar" (click)="openCreateModal()" popovertarget="popup-agregar">
+        <i class='bx bx-plus'></i>
+      </button>
+    </div>
+
+    <!-- 6. Contenedor de búsqueda -->
+    <div class="container-search">
+      <input type="text" name="buscar" placeholder="Buscar por producto o paciente" [(ngModel)]="filterPost" (input)="onFilterChange()">
+    </div>
+
+  </div>
+
+  <!-- 7. Contenedor de la tabla -->
+  <div class="container-tabla">
+    <table>
+      <thead>
+        <tr>
+          <th>ID Dispersion</th>
+          <th>Nombre del Paciente</th>
+          <th>ID Producto</th>
+          <th>Fecha de Emisión</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dispersion of filteredAndPaginatedDispersion"
+            (click)="selectedDispersionId = dispersion.id!"
+            [class.selected]="selectedDispersionId === dispersion.id">
+          <td>{{ dispersion.id }}</td>
+          <td>{{ getPatientName(dispersion.pacienteId) }}</td>
+          <td>{{ dispersion.productoId }}</td>
+          <td>{{ dispersion.fecha }}</td>
+          <td>{{ dispersion.cantidad }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 </section>
 
-
+<!-- 8. Pop-up de eliminar -->
 <div class="pop-ups-fondo" popover id="popup-eliminar">
 
+  <div class="container-pop-up" id="pop-up-eliminar">
 
-    <div class="container-pop-up" id="pop-up-eliminar">
-
-
-        <div class="bar-sup">
-            <h2>Eliminar una dispersión</h2>
-            <button popovertarget="popup-eliminar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
-        </div>
-
-
-        <div id="form-eliminar">
-            <label for="">ID de dispersión</label>
-            <input type="text" id="Id-disp-eliminar">
-            <button popovertarget="popup-eliminar"  popovertargetaction="hide" type="submit" id="btn-eliminar">Eliminar</button>
-        </div>
-
+    <div class="bar-sup">
+      <h2>Eliminar una dispersión</h2>
+      <button popovertarget="popup-eliminar" popovertargetaction="hide">
+        <i class='bx bx-x'></i>
+      </button>
     </div>
+
+    <div id="form-eliminar">
+      <p>¿Estás seguro de eliminar esta dispersión?</p>
+      <button id="btn-eliminar" (click)="deleteDispersion(selectedDispersionId!)">
+        Eliminar
+      </button>
+    </div>
+
+  </div>
 
 </div>
 
-
-
-
+<!-- 9. Pop-up de agregar -->
 <div class="pop-ups-fondo" popover id="popup-agregar">
-    
-    
-    <div class="container-pop-up" id="pop-up-agregar">
-        
-        
-        <div class="bar-sup">
-            <h2>Agregar dispersión</h2>
-            <button popovertarget="popup-agregar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
-        </div>
 
+  <div class="container-pop-up" id="pop-up-agregar">
 
-        <div class="forms">
-            <form id="form-agregar" #formAgregar="ngForm">
-                
-                <label for="" id="label-id-user">Id del usuario</label>
-                <input type="text" id="user">
-                <label for="">Id del producto</label>
-                <input type="text" id="prod">
-                <label for="">Fecha de emisión</label>
-                <input type="text" id="fecha_emit">
-                <label for="">Cantidad</label>
-                <input type="text" id="cantidad_prod">
-
-                <button popovertarget="popup-agregar" popovertargetaction="hide" type="submit" id="btn-agregar">Agregar</button>
-            
-            </form>
-
-        </div>
-
+    <div class="bar-sup">
+      <h2>Agregar dispersión</h2>
+      <button popovertarget="popup-agregar" popovertargetaction="hide">
+        <i class='bx bx-x'></i>
+      </button>
     </div>
+
+    <div class="forms">
+      <form id="form-agregar" #formAgregar="ngForm" (ngSubmit)="createDispersion()">
+
+        <label for="pacienteId">ID del paciente</label>
+        <input type="number" id="pacienteId" required [(ngModel)]="newDispersion.pacienteId" name="pacienteId">
+
+        <label for="productoId">ID del producto</label>
+        <input type="number" id="productoId" required [(ngModel)]="newDispersion.productoId" name="productoId">
+
+        <label for="fecha">Fecha de emisión</label>
+        <input type="date" id="fecha" required [(ngModel)]="newDispersion.fecha" name="fecha">
+
+        <label for="cantidad">Cantidad</label>
+        <input type="number" id="cantidad" required [(ngModel)]="newDispersion.cantidad" name="cantidad">
+
+        <button type="submit" [disabled]="!formAgregar.form.valid" id="btn-agregar">Agregar</button>
+
+      </form>
+    </div>
+
+  </div>
 
 </div>

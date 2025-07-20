@@ -1,5 +1,3 @@
-// src/app/services/venta-detail.service.ts
-
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -26,22 +24,18 @@ export class VentaDetailService {
     this.baseUrl = `${this.apiUrl}/api/ventadet`;
   }
 
-  /** Registra un nuevo detalle de venta */
   create(detail: VentaDetail): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/create`, detail);
   }
 
-  /** Obtiene todos los detalles de venta */
   getAll(): Observable<VentaDetail[]> {
     return this.http.get<VentaDetail[]>(`${this.baseUrl}/all`);
   }
 
-  /** Busca un detalle de venta por ID */
   getById(id: number): Observable<VentaDetail> {
     return this.http.get<VentaDetail>(`${this.baseUrl}/search/${id}`);
   }
 
-  /** Elimina un detalle de venta por ID */
   delete(id: number): Observable<string> {
     return this.http.delete(`${this.baseUrl}/delete/${id}`, {
       responseType: 'text'

@@ -7,7 +7,7 @@ export interface Dispersion {
   productoId: number;
   pacienteId: number;
   cantidad: number;
-  fecha: string; // Usamos string para compatibilidad con JSON
+  fecha: string;
 }
 
 @Injectable({
@@ -39,18 +39,4 @@ export class DispersionService {
     return this.http.delete(`${this.baseUrl}/delete/${id}`, { responseType: 'text' });
   }
 
-  // Métodos adicionales útiles
-  getByProductoId(productoId: number): Observable<Dispersion[]> {
-    return this.http.get<Dispersion[]>(`${this.baseUrl}/by-producto/${productoId}`);
-  }
-
-  getByPacienteId(pacienteId: number): Observable<Dispersion[]> {
-    return this.http.get<Dispersion[]>(`${this.baseUrl}/by-paciente/${pacienteId}`);
-  }
-
-  getByFecha(fecha: string): Observable<Dispersion[]> {
-    return this.http.get<Dispersion[]>(`${this.baseUrl}/by-fecha`, {
-      params: { fecha }
-    });
-  }
 }

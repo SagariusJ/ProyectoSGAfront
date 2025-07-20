@@ -26,7 +26,6 @@ export class CompraDetailService {
   }
 
   create(compraDetail: CompraDetail): Observable<void> {
-    // Simplificar la relación si solo se necesita el ID
     const payload = {
       ...compraDetail,
       compra: typeof compraDetail.compra === 'number' ? compraDetail.compra : compraDetail.compra.id
@@ -46,8 +45,4 @@ export class CompraDetailService {
     return this.http.delete(`${this.baseUrl}/delete/${id}`, { responseType: 'text' });
   }
 
-  // Método adicional para buscar detalles por compra
-  getByCompraId(compraId: number): Observable<CompraDetail[]> {
-    return this.http.get<CompraDetail[]>(`${this.baseUrl}/by-compra/${compraId}`);
-  }
 }

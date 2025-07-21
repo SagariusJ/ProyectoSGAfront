@@ -1,3 +1,4 @@
+<!-- Contenedor principal -->
 <section class="dispersion">
 
   <div class="cont-titulo">
@@ -6,10 +7,10 @@
 
   <div class="section-sup">
 
-    <!-- 3. Contenedor de cantidad de elementos -->
+    <!-- Mostrar cantidad -->
     <div class="number-dispersions">
       <label for="num">Mostrar </label>
-      <select name="" id="num" [(ngModel)]="selectedLimit" (change)="onLimitChange()">
+      <select id="num" [(ngModel)]="selectedLimit" (change)="onLimitChange()">
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="15">15</option>
@@ -17,7 +18,7 @@
       <p> dispersiones</p>
     </div>
 
-    <!-- 4. Contenedor de la paginación -->
+    <!-- Paginación -->
     <div class="paginacion">
       <button (click)="prevPage()" [disabled]="currentPage === 1">
         <i class='bx bx-chevron-left'></i>
@@ -28,24 +29,24 @@
       </button>
     </div>
 
-    <!-- 5. Contenedor de los botones -->
+    <!-- Botones -->
     <div class="container-buttons">
-      <button id="eliminar" (click)="openDeleteModal()" popovertarget="popup-eliminar">
+      <button id="eliminar" (click)="confirmDelete(selectedDispersionId)" [disabled]="!selectedDispersionId">
         <i class='bx bx-minus'></i>
       </button>
-      <button id="agregar" (click)="openCreateModal()" popovertarget="popup-agregar">
+      <button id="agregar" (click)="openCreateModal()">
         <i class='bx bx-plus'></i>
       </button>
     </div>
 
-    <!-- 6. Contenedor de búsqueda -->
+    <!-- Búsqueda -->
     <div class="container-search">
       <input type="text" name="buscar" placeholder="Buscar por producto o paciente" [(ngModel)]="filterPost" (input)="onFilterChange()">
     </div>
 
   </div>
 
-  <!-- 7. Contenedor de la tabla -->
+  <!-- Tabla -->
   <div class="container-tabla">
     <table>
       <thead>
@@ -73,44 +74,33 @@
 
 </section>
 
-<!-- 8. Pop-up de eliminar -->
-<div class="pop-ups-fondo" popover id="popup-eliminar">
-
+<!-- Modal eliminar -->
+<div class="pop-ups-fondo" *ngIf="showDeleteModal">
   <div class="container-pop-up" id="pop-up-eliminar">
-
     <div class="bar-sup">
       <h2>Eliminar una dispersión</h2>
-      <button popovertarget="popup-eliminar" popovertargetaction="hide">
+      <button (click)="showDeleteModal = false">
         <i class='bx bx-x'></i>
       </button>
     </div>
-
     <div id="form-eliminar">
       <p>¿Estás seguro de eliminar esta dispersión?</p>
-      <button id="btn-eliminar" (click)="deleteDispersion(selectedDispersionId!)">
-        Eliminar
-      </button>
+      <button id="btn-eliminar" (click)="deleteDispersion()">Eliminar</button>
     </div>
-
   </div>
-
 </div>
 
-<!-- 9. Pop-up de agregar -->
-<div class="pop-ups-fondo" popover id="popup-agregar">
-
+<!-- Modal agregar -->
+<div class="pop-ups-fondo" *ngIf="showCreateModal">
   <div class="container-pop-up" id="pop-up-agregar">
-
     <div class="bar-sup">
       <h2>Agregar dispersión</h2>
-      <button popovertarget="popup-agregar" popovertargetaction="hide">
+      <button (click)="showCreateModal = false">
         <i class='bx bx-x'></i>
       </button>
     </div>
-
     <div class="forms">
       <form id="form-agregar" #formAgregar="ngForm" (ngSubmit)="createDispersion()">
-
         <label for="pacienteId">ID del paciente</label>
         <input type="number" id="pacienteId" required [(ngModel)]="newDispersion.pacienteId" name="pacienteId">
 
@@ -124,10 +114,7 @@
         <input type="number" id="cantidad" required [(ngModel)]="newDispersion.cantidad" name="cantidad">
 
         <button type="submit" [disabled]="!formAgregar.form.valid" id="btn-agregar">Agregar</button>
-
       </form>
     </div>
-
   </div>
-
 </div>

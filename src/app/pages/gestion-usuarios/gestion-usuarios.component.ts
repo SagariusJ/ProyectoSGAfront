@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FilterPipe } from '../../pipes/filter.pipe';
-import { LimitPipe } from '../../pipes/limit-pipe.pipe';
-import { PaginatePipe } from '../../pipes/paginate.pipe';
 
 import { Paciente } from '../../services/patient.service';
 import { PatientService } from '../../services/patient.service';
@@ -12,21 +9,29 @@ import { PatientBenefitService, Paciente_Beneficio } from '../../services/patien
 @Component({
   selector: 'app-lista-usuarios',
   standalone: true,
-  imports: [CommonModule, FormsModule, FilterPipe, LimitPipe, PaginatePipe],
+  imports: [CommonModule, FormsModule],
   templateUrl: './gestion-usuarios.component.html',
   styleUrls: ['./gestion-usuarios.component.css']
 })
 export class GestionUsuariosComponent implements OnInit {
+  // Paginación y filtrado
   currentPage = 1;
   selectedLimit = 5;
-  filterPost = "";
+  filterPost = '';
 
+  // Listas y mapeo
   patients: Paciente[] = [];
   patientBenefits: Map<number, string> = new Map();
 
+  // Formularios
   newPatient: Partial<Paciente> = {};
   editPatient: Partial<Paciente> = {};
-  isEditing = false;
+
+  // Selección y modales
+  selectedPatient: Paciente | null = null;
+  showDeleteModal = false;
+  showCreateModal = false;
+  showEditModal = false;
 
   constructor(
     private patientService: PatientService,
@@ -64,11 +69,13 @@ export class GestionUsuariosComponent implements OnInit {
     });
   }
 
-  get filteredPatients() {
+  get filteredPatients(): Paciente[] {
     const filtered = this.patients.filter(p =>
       p.fullName.toLowerCase().includes(this.filterPost.toLowerCase())
     );
-    return filtered.slice((this.currentPage - 1) * this.selectedLimit, this.currentPage * this.selectedLimit);
+    const start = (this.currentPage - 1) * this.selectedLimit;
+    const end = start + this.selectedLimit;
+    return filtered.slice(start, end);
   }
 
   get totalPages(): number {
@@ -78,15 +85,40 @@ export class GestionUsuariosComponent implements OnInit {
     return Math.ceil(filtered.length / this.selectedLimit);
   }
 
-  openCreateModal(): void {
-    this.newPatient = {};
-    this.isEditing = false;
-    const modal = document.getElementById('modal-agregar') as HTMLElement;
-    if (modal && (modal as any).showPopover) {
-      modal.showPopover();
+  getPatientBenefitName(patientId: number): string {
+    return this.patientBenefits.get(patientId) || 'Sin beneficio';
+  }
+
+  // Métodos para abrir/cerrar modales
+  openDeleteModal(): void {
+    if (this.selectedPatient) {
+      this.showDeleteModal = true;
     }
   }
 
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
+  }
+
+  openCreateModal(): void {
+    this.newPatient = {};
+    this.showCreateModal = true;
+  }
+
+  closeCreateModal(): void {
+    this.showCreateModal = false;
+  }
+
+  openEditModal(patient: Paciente): void {
+    this.editPatient = { ...patient };
+    this.showEditModal = true;
+  }
+
+  closeEditModal(): void {
+    this.showEditModal = false;
+  }
+
+  // CRUD de pacientes
   createPatient(): void {
     if (!this.newPatient.fullName || !this.newPatient.birthDate) {
       alert('Nombre y fecha de nacimiento son obligatorios');
@@ -96,10 +128,7 @@ export class GestionUsuariosComponent implements OnInit {
     this.patientService.create(this.newPatient as Paciente).subscribe({
       next: () => {
         this.loadPatients();
-        const modal = document.getElementById('modal-agregar') as HTMLElement;
-        if (modal && (modal as any).hidePopover) {
-          modal.hidePopover();
-        }
+        this.closeCreateModal();
       },
       error: (err) => {
         console.error('Error al crear paciente:', err);
@@ -108,25 +137,13 @@ export class GestionUsuariosComponent implements OnInit {
     });
   }
 
-  openEditModal(patient: Paciente): void {
-    this.editPatient = { ...patient };
-    this.isEditing = true;
-    const modal = document.getElementById('modal-editar') as HTMLElement;
-    if (modal && (modal as any).showPopover) {
-      modal.showPopover();
-    }
-  }
-
   updatePatient(): void {
     if (!this.editPatient.id) return;
 
     this.patientService.update(this.editPatient.id, this.editPatient as Paciente).subscribe({
       next: () => {
         this.loadPatients();
-        const modal = document.getElementById('modal-editar') as HTMLElement;
-        if (modal && (modal as any).hidePopover) {
-          modal.hidePopover();
-        }
+        this.closeEditModal();
       },
       error: (err) => {
         console.error('Error al actualizar paciente:', err);
@@ -136,16 +153,15 @@ export class GestionUsuariosComponent implements OnInit {
   }
 
   deletePatient(id: number): void {
-    if (confirm('¿Estás seguro de eliminar este paciente?')) {
-      this.patientService.delete(id).subscribe({
-        next: () => {
-          this.loadPatients();
-        },
-        error: (err) => {
-          console.error('Error al eliminar paciente:', err);
-          alert('No se pudo eliminar el paciente');
-        }
-      });
-    }
+    this.patientService.delete(id).subscribe({
+      next: () => {
+        this.loadPatients();
+        this.closeDeleteModal();
+      },
+      error: (err) => {
+        console.error('Error al eliminar paciente:', err);
+        alert('No se pudo eliminar el paciente');
+      }
+    });
   }
 }

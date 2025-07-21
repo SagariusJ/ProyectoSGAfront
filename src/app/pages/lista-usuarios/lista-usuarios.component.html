@@ -1,10 +1,13 @@
+<!-- Contenedor principal -->
 <section class="lista-users">
 
+  <!-- Barra superior de controles -->
   <div class="section-sup">
 
+    <!-- Mostrar cantidad -->
     <div class="number-products">
       <label for="num">Mostrar </label>
-      <select name="" id="num" [(ngModel)]="selectedLimit" (change)="onLimitChange()">
+      <select id="num" [(ngModel)]="selectedLimit" (change)="onLimitChange()">
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="15">15</option>
@@ -12,6 +15,7 @@
       <p> usuarios</p>
     </div>
 
+    <!-- Paginación -->
     <div class="paginacion">
       <button (click)="prevPage()" [disabled]="currentPage === 1">
         <i class='bx bx-chevron-left'></i>
@@ -22,21 +26,24 @@
       </button>
     </div>
 
+    <!-- Botones de acción -->
     <div class="container-buttons">
-      <button id="eliminar" (click)="confirmDelete(selectedUserId)" popovertarget="popup-eliminar">
+      <button id="eliminar" (click)="confirmDelete()" [disabled]="!selectedUser">
         <i class='bx bx-minus'></i>
       </button>
-      <button id="modificar" (click)="openEditRoleModal(selectedUser)" popovertarget="popup-editar-rol">
+      <button id="modificar" (click)="openEditRoleModal(selectedUser)" [disabled]="!selectedUser">
         <i class='bx bxs-edit'></i>
       </button>
     </div>
 
+    <!-- Búsqueda -->
     <div class="container-search">
       <input type="text" name="buscar" placeholder="Buscar por nombre o correo" [(ngModel)]="filterPost" (input)="onFilterChange()">
     </div>
 
   </div>
 
+  <!-- Tabla de usuarios -->
   <div class="container-tabla">
     <table>
       <thead>
@@ -62,41 +69,33 @@
 
 </section>
 
-<div class="pop-ups-fondo" popover id="popup-eliminar">
-
+<!-- Modal de eliminar usuario -->
+<div class="pop-ups-fondo" *ngIf="showDeleteModal">
   <div id="pop-up-eliminar">
-
     <div class="bar-sup">
       <h2>Eliminar usuario</h2>
-      <button popovertarget="popup-eliminar" popovertargetaction="hide">
+      <button (click)="showDeleteModal = false">
         <i class='bx bx-x'></i>
       </button>
     </div>
-
     <div id="form-eliminar">
       <p>¿Estás seguro de eliminar a {{ selectedUser?.fullName }}?</p>
-      <button id="btn-eliminar" (click)="deleteUser()">
-        Eliminar
-      </button>
+      <button id="btn-eliminar" (click)="deleteUser()">Eliminar</button>
     </div>
-
   </div>
-
 </div>
 
-<div class="pop-ups-fondo" popover id="popup-editar-rol">
-
+<!-- Modal de editar rol -->
+<div class="pop-ups-fondo" *ngIf="showEditRoleModal">
   <div id="pop-up-mod">
-
     <div class="bar-sup">
       <h2>Editar rol de usuario</h2>
-      <button popovertarget="popup-editar-rol" popovertargetaction="hide">
+      <button (click)="showEditRoleModal = false">
         <i class='bx bx-x'></i>
       </button>
     </div>
-
     <div class="forms">
-      <form action="" id="form-mod">
+      <form id="form-mod">
         <label for="nombre">Nombre del usuario</label>
         <input type="text" id="nombre" [value]="selectedUser?.fullName" readonly>
 
@@ -112,7 +111,5 @@
         <button type="button" id="btn-mod" (click)="updateRole()">Guardar</button>
       </form>
     </div>
-
   </div>
-
 </div>

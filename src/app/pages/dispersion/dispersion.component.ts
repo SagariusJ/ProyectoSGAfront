@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FilterPipe } from '../../pipes/filter.pipe';
-import { LimitPipe } from '../../pipes/limit-pipe.pipe';
-import { PaginatePipe } from '../../pipes/paginate.pipe';
 
 import { Dispersion } from '../../services/dispersion.service';
 import { DispersionService } from '../../services/dispersion.service';
@@ -13,7 +10,7 @@ import { Paciente } from '../../services/patient.service';
 @Component({
   selector: 'app-dispersion',
   standalone: true,
-  imports: [CommonModule, FormsModule, FilterPipe, LimitPipe, PaginatePipe],
+  imports: [CommonModule, FormsModule],
   templateUrl: './dispersion.component.html',
   styleUrls: ['./dispersion.component.css']
 })
@@ -24,12 +21,13 @@ export class DispersionComponent implements OnInit {
 
   dispersions: Dispersion[] = [];
   patientsMap: Map<number, Paciente> = new Map();
-  filteredAndPaginatedDispersion: Dispersion[] = [];
 
   newDispersion: Partial<Dispersion> = {};
-  editDispersion: Partial<Dispersion> = {};
   selectedPatientId: number | null = null;
   selectedDispersionId: number | null = null;
+
+  showCreateModal = false;
+  showDeleteModal = false;
 
   constructor(
     private dispersionService: DispersionService,
@@ -41,11 +39,14 @@ export class DispersionComponent implements OnInit {
     this.loadDispersions();
   }
 
+  // Cargar pacientes
   loadPatients(): void {
     this.patientService.getAll().subscribe({
       next: (patients) => {
         patients.forEach(p => {
-          this.patientsMap.set(p.id!, p);
+          if (p.id) {
+            this.patientsMap.set(p.id, p);
+          }
         });
       },
       error: (err) => {
@@ -54,11 +55,11 @@ export class DispersionComponent implements OnInit {
     });
   }
 
+  // Cargar dispersiones
   loadDispersions(): void {
     this.dispersionService.getAll().subscribe({
       next: (data) => {
         this.dispersions = data;
-        this.updateFilteredAndPaginatedList();
       },
       error: (err) => {
         console.error('Error al cargar dispersiones:', err);
@@ -66,22 +67,22 @@ export class DispersionComponent implements OnInit {
     });
   }
 
-  updateFilteredAndPaginatedList(): void {
+  // Obtener nombre del paciente
+  getPatientName(pacienteId: number): string {
+    return this.patientsMap.get(pacienteId)?.fullName || 'Desconocido';
+  }
+
+  // Filtro y paginación
+  get filteredAndPaginatedDispersion(): Dispersion[] {
     const filtered = this.dispersions.filter(d =>
       d.productoId.toString().includes(this.filterPost.toLowerCase()) ||
       this.getPatientName(d.pacienteId).toLowerCase().includes(this.filterPost.toLowerCase())
     );
 
-    const paginated = filtered.slice(
-      (this.currentPage - 1) * this.selectedLimit,
-      this.currentPage * this.selectedLimit
-    );
+    const start = (this.currentPage - 1) * this.selectedLimit;
+    const end = start + this.selectedLimit;
 
-    this.filteredAndPaginatedDispersion = paginated;
-  }
-
-  getPatientName(pacienteId: number): string {
-    return this.patientsMap.get(pacienteId)?.fullName || 'Desconocido';
+    return filtered.slice(start, end);
   }
 
   get totalPages(): number {
@@ -95,24 +96,68 @@ export class DispersionComponent implements OnInit {
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updateFilteredAndPaginatedList();
     }
   }
 
   prevPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.updateFilteredAndPaginatedList();
     }
   }
 
   onLimitChange(): void {
     this.currentPage = 1;
-    this.updateFilteredAndPaginatedList();
   }
 
   onFilterChange(): void {
     this.currentPage = 1;
-    this.updateFilteredAndPaginatedList();
+  }
+
+  // Crear dispersión
+  openCreateModal(): void {
+    this.newDispersion = {};
+    this.selectedPatientId = null;
+    this.showCreateModal = true;
+  }
+
+  createDispersion(): void {
+    if (!this.newDispersion.productoId || !this.selectedPatientId || !this.newDispersion.cantidad) {
+      alert('Producto, paciente y cantidad son obligatorios');
+      return;
+    }
+
+    this.newDispersion.pacienteId = this.selectedPatientId;
+
+    this.dispersionService.create(this.newDispersion as Dispersion).subscribe({
+      next: () => {
+        this.loadDispersions();
+        this.showCreateModal = false;
+      },
+      error: (err) => {
+        console.error('Error al crear dispersión:', err);
+        alert('No se pudo crear la dispersión');
+      }
+    });
+  }
+
+  // Eliminar dispersión
+  confirmDelete(id: number | null): void {
+    this.selectedDispersionId = id;
+    this.showDeleteModal = true;
+  }
+
+  deleteDispersion(): void {
+    if (!this.selectedDispersionId) return;
+
+    this.dispersionService.delete(this.selectedDispersionId).subscribe({
+      next: () => {
+        this.loadDispersions();
+        this.showDeleteModal = false;
+      },
+      error: (err) => {
+        console.error('Error al eliminar dispersión:', err);
+        alert('No se pudo eliminar la dispersión');
+      }
+    });
   }
 }

@@ -20,8 +20,12 @@ export class ListaUsuariosComponent implements OnInit {
   filterPost = "";
 
   users: User[] = [];
-  selectedUserId: number | null = null;
   newRole: string = 'user'; // valor por defecto
+  selectedUser: User | null = null;
+  selectedUserId: number | null = null;
+
+  showDeleteModal = false;
+  showEditRoleModal = false;
 
   constructor(private usuarioService: UsuarioService) {}
 
@@ -79,13 +83,13 @@ export class ListaUsuariosComponent implements OnInit {
   }
 
   // Abrir modal de edición de rol
-  openEditRoleModal(user: User): void {
+  openEditRoleModal(user: User | null): void {
+    if (!user) return; // Salimos si es null
+
+    this.selectedUser = user;
     this.selectedUserId = user.id ?? null;
     this.newRole = user.role ?? 'user';
-    const modal = document.getElementById('popup-editar-rol') as HTMLElement;
-    if (modal && (modal as any).showPopover) {
-      modal.showPopover();
-    }
+    this.showEditRoleModal = true;
   }
 
   // Actualizar rol del usuario
@@ -95,10 +99,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.usuarioService.updateUserRole(this.selectedUserId, this.newRole).subscribe({
       next: () => {
         this.loadUsers();
-        const modal = document.getElementById('popup-editar-rol') as HTMLElement;
-        if (modal && (modal as any).hidePopover) {
-          modal.hidePopover();
-        }
+        this.showEditRoleModal = false;
       },
       error: (err) => {
         console.error('Error al actualizar rol:', err);
@@ -108,13 +109,12 @@ export class ListaUsuariosComponent implements OnInit {
   }
 
   // Eliminar usuario
-  confirmDelete(userId: number): void {
-    this.selectedUserId = userId;
-    const modal = document.getElementById('popup-eliminar') as HTMLElement;
-    if (modal && (modal as any).showPopover) {
-      modal.showPopover();
+  confirmDelete(): void {
+    if (this.selectedUser) {
+      this.selectedUserId = this.selectedUser.id;
+      this.showDeleteModal = true;
     }
-  }
+  } 
 
   deleteUser(): void {
     if (!this.selectedUserId) return;
@@ -122,10 +122,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.usuarioService.deleteUser(this.selectedUserId).subscribe({
       next: () => {
         this.loadUsers();
-        const modal = document.getElementById('popup-eliminar') as HTMLElement;
-        if (modal && (modal as any).hidePopover) {
-          modal.hidePopover();
-        }
+        this.showDeleteModal = false;
       },
       error: (err) => {
         console.error('Error al eliminar usuario:', err);

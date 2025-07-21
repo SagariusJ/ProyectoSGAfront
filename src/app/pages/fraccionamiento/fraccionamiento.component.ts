@@ -146,8 +146,7 @@ export class FraccionamientoComponent implements OnInit {
       cantidad: this.cantidad,
       sucursalOrigenId: this.emisorSeleccionado,
       sucursalDestinoId: this.destinatarioSeleccionado,
-      fecha: new Date().toISOString(),
-      usuarioId: this.usuarioId
+      fecha: new Date().toISOString()
     };
 
     this.cargando = true;

@@ -1,1 +1,95 @@
-<p>compras works!</p>
+<!-- 1. Contenedor general -->
+<section class="inventario">
+
+  <!-- 2. Barra de opciones superior de la tabla -->
+  <div class="section-sup">
+
+    <!-- 3. Contenedor de cantidad de elementos -->
+    <div class="number-products">
+      <label for="num">Mostrar </label>
+      <select id="num" [(ngModel)]="selectedLimit">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <p> compras</p>
+    </div>
+
+    <!-- 4. Contenedor de la paginación -->
+    <div class="paginacion">
+      <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1">
+        <i class='bx bx-chevron-left'></i>
+      </button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages">
+        <i class='bx bx-chevron-right'></i>
+      </button>
+    </div>
+
+    <!-- 5. Contenedor de los botones -->
+    <div class="container-buttons">
+      <button id="agregar" popovertarget="popup-agregar"><i class='bx bx-plus'></i></button>
+    </div>
+
+    <!-- 6. Contenedor de búsqueda -->
+    <div class="container-search">
+      <input type="text" placeholder="Buscar por proveedor..." [(ngModel)]="filterText" />
+    </div>
+
+  </div>
+
+  <!-- 7. Contenedor de la tabla de datos -->
+  <div class="container-tabla">
+    <table>
+        <thead> 
+            <tr>
+                <th style="width: 10%;">Id</th>
+                <th style="width: 30%;">Proveedor</th>
+                <th style="width: 20%;">Fecha</th>
+                <th style="width: 20%;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let compra of paginatedCompras">
+                <td>{{ compra.id }}</td>
+                <td>{{ compra.provider.nombre }}</td>
+                <td>{{ compra.fecha }}</td>
+                <td>{{ compra.total }}</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 8. Pop-up de agregar -->
+<div class="pop-ups-fondo" popover id="popup-agregar">
+
+  <!-- 10. Contenedor pop-up agregar -->
+  <div id="pop-up-agregar">
+
+    <!-- 11. Barra superior del pop-up -->
+    <div class="bar-sup">
+      <h2>Agregar Compra</h2>
+      <button popovertarget="popup-agregar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
+    </div>
+
+    <!-- 12. Formulario -->
+    <div class="forms">
+      <form id="form-agregar" (ngSubmit)="createCompra()" #formAgregar="ngForm">
+
+        <label>Proveedor</label>
+        <select name="provider" [(ngModel)]="newCompra.provider" required>
+          <option *ngFor="let prov of proveedores" [ngValue]="prov">
+            {{ prov.nombre }}
+          </option>
+        </select>
+
+        <label>Fecha</label>
+        <input type="date" name="fecha" [(ngModel)]="newCompra.fecha" required />
+
+        <button popovertarget="popup-agregar" popovertargetaction="hide" type="submit" id="btn-agregar">Agregar</button>
+
+      </form>
+    </div>
+  </div>
+</div>

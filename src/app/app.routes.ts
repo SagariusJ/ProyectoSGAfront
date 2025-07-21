@@ -12,6 +12,7 @@ import { Component } from '@angular/core';
 import { BeneficiosComponent } from './pages/beneficios/beneficios.component';
 import { FraccionamientoComponent } from './pages/fraccionamiento/fraccionamiento.component';
 import { DispersionComponent } from './pages/dispersion/dispersion.component';
+import { VentasComponent } from './pages/ventas/ventas.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -26,5 +27,6 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent},
     { path: 'beneficios', component: BeneficiosComponent},
     { path: 'fraccionamiento', component: FraccionamientoComponent},
-    { path: 'dispersion', component: DispersionComponent }
+    { path: 'dispersion', component: DispersionComponent },
+    { path: 'ventas', component: VentasComponent }
 ];

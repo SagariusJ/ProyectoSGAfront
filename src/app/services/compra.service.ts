@@ -5,7 +5,6 @@ import { Provider } from './provider.service';
 
 export interface CompraDetail {
   id?: number;
-  // Define los campos específicos del detalle de compra
   productoId: number;
   cantidad: number;
   precioUnitario: number;

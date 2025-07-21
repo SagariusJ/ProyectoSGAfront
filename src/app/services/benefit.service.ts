@@ -20,7 +20,7 @@ export class BenefitService {
     private http: HttpClient,
     @Inject('API_URL') private apiUrl: string
   ) {
-    this.baseUrl = `${this.apiUrl}/benefits`;
+    this.baseUrl = `${this.apiUrl}/api/benefits`;
     }
 
   create(beneficio: Beneficio): Observable<void> {

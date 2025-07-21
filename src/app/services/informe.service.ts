@@ -30,7 +30,7 @@ export class InformeService {
     private http: HttpClient,
     @Inject('API_URL') private apiUrl: string
   ) {
-    this.baseUrl = `${this.apiUrl}/informe`;
+    this.baseUrl = `${this.apiUrl}/api/informe`;
   }
 
   /**

@@ -20,7 +20,7 @@ export class PatientBenefitService {
     private http: HttpClient,
     @Inject('API_URL') private apiUrl: string
   ) {
-    this.baseUrl = `${this.apiUrl}/patben`;
+    this.baseUrl = `${this.apiUrl}/api/patben`;
     }
 
   create(patben: Paciente_Beneficio): Observable<void> {

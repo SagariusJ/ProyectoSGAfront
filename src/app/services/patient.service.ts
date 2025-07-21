@@ -21,7 +21,7 @@ export class PatientService {
     private http: HttpClient,
     @Inject('API_URL') private apiUrl: string
   ) {
-    this.baseUrl = `${this.apiUrl}/patients`;
+    this.baseUrl = `${this.apiUrl}/api/patients`;
     }
 
     create(paciente: Paciente): Observable<void> {

@@ -6,11 +6,12 @@ import { GestionProductoComponent } from './pages/gestion-producto/gestion-produ
 import { GestionBodegaComponent } from './pages/gestion-bodega/gestion-bodega.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ComprasComponent } from './pages/compras/compras.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
+  imports: [NgIf,
     RouterOutlet,
     RouterModule,
     GestionInventarioComponent,

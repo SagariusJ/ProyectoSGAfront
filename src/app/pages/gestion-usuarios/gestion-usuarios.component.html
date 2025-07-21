@@ -1,0 +1,164 @@
+<!-- Contenedor principal -->
+<section class="gestion-usuarios">
+
+  <!-- Barra superior de controles -->
+  <div class="section-sup">
+    <!-- Mostrar cantidad -->
+    <div class="number-products">
+      <label for="num">Mostrar </label>
+      <select id="num" [(ngModel)]="selectedLimit" (change)="currentPage = 1">
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="15">15</option>
+      </select>
+      <p>usuarios</p>
+    </div>
+
+    <!-- Paginación -->
+    <div class="paginacion">
+      <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1">
+        <i class='bx bx-chevron-left'></i>
+      </button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages">
+        <i class='bx bx-chevron-right'></i>
+      </button>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="container-buttons">
+      <button id="eliminar" (click)="openDeleteModal()" [disabled]="!selectedPatient">
+        <i class='bx bx-minus'></i>
+      </button>
+      <button id="agregar" (click)="openCreateModal()">
+        <i class='bx bx-plus'></i>
+      </button>
+    </div>
+
+    <!-- Búsqueda -->
+    <div class="container-search">
+      <input type="text" placeholder="Buscar por nombre..." [(ngModel)]="filterPost">
+    </div>
+  </div>
+
+  <!-- Tabla de usuarios -->
+  <div class="container-tabla">
+    <table>
+      <thead>
+        <tr>
+          <th>ID usuario</th>
+          <th>Nombre completo</th>
+          <th>RUT usuario</th>
+          <th>Edad</th>
+          <th>Dirección</th>
+          <th>Comuna</th>
+          <th>Región</th>
+          <th>Beneficio</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of filteredPatients"
+            (click)="selectedPatient = patient"
+            [class.selected]="selectedPatient?.id === patient.id">
+          <td>{{ patient.id }}</td>
+          <td>{{ patient.fullName }}</td>
+          <td>{{ patient.birthDate }}</td>
+          <td>{{ patient.address }}</td>
+          <td>{{ patient.commune }}</td>
+          <td>{{ patient.region }}</td>
+          <td>{{ getPatientBenefitName(patient.id) }}</td>
+          <td>
+            <button (click)="openEditModal(patient)">Editar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+<!-- POPUPS -->
+
+<!-- Eliminar usuario -->
+<div class="pop-ups-fondo" *ngIf="showDeleteModal">
+  <div class="popup">
+    <div class="bar-sup">
+      <h2>Eliminar un usuario</h2>
+      <button (click)="closeDeleteModal()">
+        <i class='bx bx-x'></i>
+      </button>
+    </div>
+    <div class="forms">
+      <p>¿Estás seguro de eliminar a {{ selectedPatient?.fullName }}?</p>
+      <button (click)="deletePatient(selectedPatient!.id); closeDeleteModal();">
+        Eliminar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Agregar usuario -->
+<div class="pop-ups-fondo" *ngIf="showCreateModal">
+  <div class="popup">
+    <div class="bar-sup">
+      <h2>Agregar un nuevo usuario</h2>
+      <button (click)="closeCreateModal()">
+        <i class='bx bx-x'></i>
+      </button>
+    </div>
+    <form class="forms" (ngSubmit)="createPatient()" #createForm="ngForm">
+      <label for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" required [(ngModel)]="newPatient.fullName" name="fullName">
+
+      <label for="fecha">Fecha de nacimiento</label>
+      <input type="date" id="fecha" required [(ngModel)]="newPatient.birthDate" name="birthDate">
+
+
+      <label for="direccion">Dirección</label>
+      <input type="text" id="direccion" [(ngModel)]="newPatient.address" name="address">
+
+      <label for="comuna">Comuna</label>
+      <input type="text" id="comuna" [(ngModel)]="newPatient.commune" name="comuna">
+
+      <label for="region">Región</label>
+      <input type="text" id="region" [(ngModel)]="newPatient.region" name="region">
+
+      <button type="submit" [disabled]="!createForm.form.valid">
+        Agregar
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Editar usuario -->
+<div class="pop-ups-fondo" *ngIf="showEditModal">
+  <div class="popup">
+    <div class="bar-sup">
+      <h2>Editar usuario</h2>
+      <button (click)="closeEditModal()">
+        <i class='bx bx-x'></i>
+      </button>
+    </div>
+    <form class="forms" (ngSubmit)="updatePatient()" #editForm="ngForm">
+      <label for="nombre-editar">Nombre completo</label>
+      <input type="text" id="nombre-editar" required [(ngModel)]="editPatient.fullName" name="fullName">
+
+      <label for="fecha-editar">Fecha de nacimiento</label>
+      <input type="date" id="fecha-editar" required [(ngModel)]="editPatient.birthDate" name="birthDate">
+
+      <label for="direccion-editar">Dirección</label>
+      <input type="text" id="direccion-editar" [(ngModel)]="editPatient.address" name="address">
+
+      <label for="comuna-editar">Comuna</label>
+      <input type="text" id="comuna-editar" [(ngModel)]="editPatient.commune" name="comuna">
+
+      <label for="region-editar">Región</label>
+      <input type="text" id="region-editar" [(ngModel)]="editPatient.region" name="region">
+
+      <button type="submit" [disabled]="!editForm.form.valid">
+        Guardar cambios
+      </button>
+    </form>
+  </div>
+</div>

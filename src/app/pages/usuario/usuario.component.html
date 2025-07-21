@@ -1,4 +1,8 @@
+<!-- Contenedor general -->
 <section class="usuarios" *ngIf="user">
+
+
+  <!-- Contenedor de la imagen del usuario -->
   <div class="container-foto-nombre">
     <div class="fondo-imagen">
       <div class="real-fondo-imag">
@@ -10,6 +14,8 @@
     <h2 id="nombre-usuario">{{ user.fullName }}</h2>
   </div>
 
+
+  <!-- Contenedor de los beneficios del usuario -->
   <div class="container-beneficios">
     <div class="beneficios">
       <table>
@@ -24,6 +30,8 @@
       </table>
     </div>
 
+
+    <!-- Contenedor de las ultimas compras del usuario -->
     <div class="ultimas-compras">
       <div class="compras">
         <table>
@@ -38,6 +46,8 @@
     </div>
   </div>
 
+
+  <!-- Contenedor de los datos del usuario -->
   <div class="container-datos">
     <div class="datos">
       <h2>Mis datos</h2>
@@ -62,4 +72,6 @@
       <button id="btn-editar">Editar</button>
     </div>
   </div>
+  
+
 </section>

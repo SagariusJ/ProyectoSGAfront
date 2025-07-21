@@ -1,149 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de usuarios</title>
-    <link rel="stylesheet" href="./lista-usuarios.component.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
-<body>
-    <section class="lista-users">
-        <div class="section-sup">
-            <div class="number-products">
-                <label for="num">Mostrar </label>
-                <select name="" id="num" [(ngModel)]="selectedLimit">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                </select>
-                <p> usuarios</p>
-            </div>
+<!-- Contenedor principal -->
+<section class="lista-users">
 
-            <div class="paginacion">
-                <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1"><i class='bx bx-chevron-left'></i></button>
-                    <span>Página {{ currentPage }} de {{ totalPages }}</span>
-                <button (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages"><i class='bx bx-chevron-right'></i></button>
-            </div>
+  <!-- Barra superior de controles -->
+  <div class="section-sup">
 
-            <div class="container-buttons">
-                <button id="eliminar" popovertarget="popup-eliminar"><i class='bx bx-minus'></i></button>
-                <button id="modificar" popovertarget="popup-modificar"><i class='bx bxs-edit'></i></button>
-                <button id="agregar" popovertarget="popup-agregar"><i class='bx bx-plus'></i></button>
-            </div>
-    
-            <div class="container-search">
-                <input type="text" name="buscar" placeholder="Buscar..." [(ngModel)]="filterPost">
-            </div>
-        </div>
-
-        <div class="container-tabla">
-            <table>
-                <thead>
-                    <tr>
-                        <th>RUT</th>
-                        <th id="name">Nombre completo</th>
-                        <th id="date">Fecha de nacimiento</th>
-                        <th>Edad</th>
-                        <th>Beneficios</th>
-                        <th>Región</th>
-                        <th>Comuna</th>
-                        <th id="direccion">Dirección</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr *ngFor="let post of posts | filter:filterPost | paginate:currentPage:selectedLimit | limit:selectedLimit">
-                        <td>{{post.RUT}}</td>
-                        <td>{{post.nombre_completo}}</td>
-                        <td>{{post.fecha_nacimiento}}</td>
-                        <td>{{post.edad}}</td>
-                        <td>{{post.beneficio}}</td>
-                        <td>{{post.region}}</td>
-                        <td>{{post.comuna}}</td>
-                        <td>{{post.direccion}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <div class="pop-ups-fondo" popover id="popup-eliminar">
-        <div class="container-pop-up" id="pop-up-eliminar">
-            <div class="bar-sup">
-                <h2>Eliminar usuario</h2>
-                <button popovertarget="popup-eliminar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
-            </div>
-            <div id="form-eliminar">
-                <label for="RUT-user">RUT del usuario</label>
-                <input type="text" id="RUT-user">
-                <label for="causa-user">Causa por la cual se elimina</label>
-                <textarea name="" id="causa-user"></textarea>
-                <button id="btn-eliminar">Eliminar</button>
-            </div>
-        </div>
-
+    <!-- Mostrar cantidad -->
+    <div class="number-products">
+      <label for="num">Mostrar </label>
+      <select id="num" [(ngModel)]="selectedLimit" (change)="onLimitChange()">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <p> usuarios</p>
     </div>
 
-    <div class="pop-ups-fondo"popover id="popup-modificar">
-        <div class="container-pop-up" id="pop-up-mod">
-            <div class="bar-sup">
-                <h2>Modificar un usuario</h2>
-                <button popovertarget="popup-modificar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
-            </div>
-            <div class="forms">
-                <form action="" id="form-mod">
-                    <label for="" id="label-rut-mod">RUT del usuario</label>
-                    <input type="text" id="rut-modificar">
-                    <label for="" class="titulos-form">Nombre completo del usuario</label>
-                    <input type="text" id="nombre-mod">
-                    <label for="" class="titulos-form">Fecha de nacimiento del usuario</label>
-                    <input type="date" id="fecha-mod">
-                    <label for="" class="titulos-form">Edad del usuario</label>
-                    <input type="text" id="edad-mod">
-                    <label for="" class="titulos-form">Beneficios del usuario</label>
-                    <input type="text" id="beneficio-mod">
-                    <label for="" class="titulos-form">Region del usuario</label>
-                    <input type="text" id="region-mod">
-                    <label for="" class="titulos-form">Comuna del usuario</label>
-                    <input type="text" id="comuna-mod">
-                    <label for="" class="titulos-form">Dirección del usuario</label>
-                    <input type="text" id="direccion-mod">
-                    <button id="btn-mod">Modificar</button>
-                </form>
-            </div>
-        </div>
+    <!-- Paginación -->
+    <div class="paginacion">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">
+        <i class='bx bx-chevron-left'></i>
+      </button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+        <i class='bx bx-chevron-right'></i>
+      </button>
     </div>
 
-    <div class="pop-ups-fondo"popover id="popup-agregar">
-        <div class="container-pop-up" id="pop-up-agregar">
-            <div class="bar-sup">
-                <h2>Agregar nuevo usuario</h2>
-                <button popovertarget="popup-agregar" popovertargetaction="hide"><i class='bx bx-x'></i></button>
-            </div>
-            <div class="forms">
-                <form action="" id="form-agregar">
-                    <label for="" id="label-rut-mod">RUT del usuario</label>
-                    <input type="text" id="rut-modificar">
-                    <label for="" class="titulos-form">Nombre completo del usuario</label>
-                    <input type="text" id="nombre-mod">
-                    <label for="" class="titulos-form">Fecha de nacimiento del usuario</label>
-                    <input type="date" id="fecha-mod">
-                    <label for="" class="titulos-form">Edad del usuario</label>
-                    <input type="text" id="edad-mod">
-                    <label for="" class="titulos-form">Beneficios del usuario</label>
-                    <input type="text" id="beneficio-mod">
-                    <label for="" class="titulos-form">Region del usuario</label>
-                    <input type="text" id="region-mod">
-                    <label for="" class="titulos-form">Comuna del usuario</label>
-                    <input type="text" id="comuna-mod">
-                    <label for="" class="titulos-form">Dirección del usuario</label>
-                    <input type="text" id="direccion-mod">
-                    <button id="btn-agregar">Agregar</button>
-                </form>
-            </div>
-        </div>
-        
+    <!-- Botones de acción -->
+    <div class="container-buttons">
+      <button id="eliminar" (click)="confirmDelete()" [disabled]="!selectedUser">
+        <i class='bx bx-minus'></i>
+      </button>
+      <button id="modificar" (click)="openEditRoleModal(selectedUser)" [disabled]="!selectedUser">
+        <i class='bx bxs-edit'></i>
+      </button>
     </div>
-</body>
-</html>
+
+    <!-- Búsqueda -->
+    <div class="container-search">
+      <input type="text" name="buscar" placeholder="Buscar por nombre o correo" [(ngModel)]="filterPost" (input)="onFilterChange()">
+    </div>
+
+  </div>
+
+  <!-- Tabla de usuarios -->
+  <div class="container-tabla">
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre completo</th>
+          <th>Nombre de usuario</th>
+          <th>Email</th>
+          <th>Rol</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers"
+            (click)="selectedUser = user"
+            [class.selected]="selectedUser?.id === user.id">
+          <td>{{ user.fullName }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+<!-- Modal de eliminar usuario -->
+<div class="pop-ups-fondo" *ngIf="showDeleteModal">
+  <div id="pop-up-eliminar">
+    <div class="bar-sup">
+      <h2>Eliminar usuario</h2>
+      <button (click)="showDeleteModal = false">
+        <i class='bx bx-x'></i>
+      </button>
+    </div>
+    <div id="form-eliminar">
+      <p>¿Estás seguro de eliminar a {{ selectedUser?.fullName }}?</p>
+      <button id="btn-eliminar" (click)="deleteUser()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de editar rol -->
+<div class="pop-ups-fondo" *ngIf="showEditRoleModal">
+  <div id="pop-up-mod">
+    <div class="bar-sup">
+      <h2>Editar rol de usuario</h2>
+      <button (click)="showEditRoleModal = false">
+        <i class='bx bx-x'></i>
+      </button>
+    </div>
+    <div class="forms">
+      <form id="form-mod">
+        <label for="nombre">Nombre del usuario</label>
+        <input type="text" id="nombre" [value]="selectedUser?.fullName" readonly>
+
+        <label for="rol">Rol actual</label>
+        <input type="text" id="rol" [value]="selectedUser?.role" readonly>
+
+        <label for="nuevo-rol">Nuevo rol</label>
+        <select id="nuevo-rol" [(ngModel)]="newRole" name="newRole">
+          <option value="user">Usuario</option>
+          <option value="admin">Administrador</option>
+        </select>
+
+        <button type="button" id="btn-mod" (click)="updateRole()">Guardar</button>
+      </form>
+    </div>
+  </div>
+</div>

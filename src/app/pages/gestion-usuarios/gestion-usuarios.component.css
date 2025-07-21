@@ -1,0 +1,184 @@
+.gestion-usuarios {
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Barra superior --- */
+.section-sup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.number-products,
+.paginacion,
+.container-buttons,
+.container-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-sup label,
+.section-sup p {
+  font-weight: 500;
+}
+
+/* --- Select y input de búsqueda --- */
+#num,
+.container-search input {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+/* --- Botones --- */
+.container-buttons button,
+.paginacion button,
+table button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.container-buttons button:hover,
+.paginacion button:hover,
+table button:hover {
+  background-color: #3a78c2;
+}
+
+.container-buttons i,
+.paginacion i,
+table i {
+  font-size: 1.2rem;
+}
+
+/* --- Tabla --- */
+.container-tabla {
+  overflow-x: auto;
+  border-radius: 0.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+th, td {
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #f1f1f1;
+  font-weight: 600;
+}
+
+/* --- Popups --- */
+.pop-ups-fondo {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.pop-ups-fondo > div {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Barra superior popups --- */
+.bar-sup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.bar-sup h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.bar-sup button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #777;
+}
+
+/* --- Formularios --- */
+.forms form,
+#form-eliminar,
+#form-eliminar-benef {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.forms label,
+#form-eliminar label,
+#form-eliminar-benef label {
+  font-weight: 500;
+}
+
+.forms input,
+#form-eliminar input,
+#form-eliminar-benef input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+.forms button,
+#form-eliminar button,
+#form-eliminar-benef button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 0.6rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.forms button:hover,
+#form-eliminar button:hover,
+#form-eliminar-benef button:hover {
+  background-color: #3e8e41;
+}
+
+/* --- Responsive --- */
+@media screen and (max-width: 768px) {
+  .section-sup {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .container-tabla {
+    overflow-x: auto;
+  }
+}

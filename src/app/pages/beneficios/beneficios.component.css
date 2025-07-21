@@ -1,3 +1,4 @@
+/* Estilos generales */
 *{
     box-sizing:border-box;
     margin: 0;
@@ -51,6 +52,34 @@
     outline: none;
 }
 
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 7.5vh;
+    margin-left: 1vw;
+}
+
+.paginacion button {
+    display: flex;
+    padding: 0.45vw;
+    background-color: #00AD00;
+    color: white;
+    border: none;
+    border-radius: 2em;
+    cursor: pointer;
+}
+
+.paginacion button:hover{
+    background-color: #018a01;
+}
+
+.paginacion button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
 .container-buttons{
     margin-top: 6vh;
     margin-left: 32vw;
@@ -85,6 +114,8 @@
     background-color: rgb(15, 165, 48);
     border: solid rgb(3, 121, 28) 2px;
 }
+
+
 
 .pop-ups-fondo{
     width: 100vw;
@@ -183,11 +214,11 @@
 
 .container-tabla {
     margin-top: 4vh;
+    height: 60vh;
     padding: 0 10px;
     margin-bottom: 10vh;
 }
 
-/* Estilos generales de la tabla */
 table {
     width: 100%;
     border-collapse: separate;
@@ -198,12 +229,10 @@ table {
     overflow: hidden;
 }
 
-/* Cabecera */
 thead {
     background-color: #00AD00;
 }
 
-/* Celdas de la cabecera */
 th {
     text-align: left;
     padding: 10px 20px;
@@ -216,6 +245,14 @@ th {
 
 #beneficio_name{
     width: 15vw;
+}
+
+#descripcion{
+    width: 20vw;
+}
+
+#desc{
+    width: 8vw;
 }
 
 #borrado_benef{
@@ -236,20 +273,17 @@ th {
     border: solid rgb(143, 11, 11) 2px;
 }
 
-/* Cuerpo de la tabla vacío (por ahora sin estilos especiales) */
 tbody td {
     text-align: center;
     color: black;
-    background-color: #d3d3d3; /* gris claro como en la imagen */
+    background-color: #d3d3d3;
     padding: 15px;
 }
 
-/* Eliminar bordes visibles */
 table, th, td {
     border: none;
 }
 
-/* Redondear solo los bordes superiores de la cabecera */
 thead th:first-child {
     border-top-left-radius: 10px;
 }
@@ -262,8 +296,8 @@ thead th:last-child {
     height: 26vh;
 }
 
-#pop-up-agregar{
-    height: 75vh;
+#cont-popup-agregar{
+    height: 60vh;
     top: 10vh;
 }
 
@@ -312,6 +346,7 @@ thead th:last-child {
     padding: 1vh;
     margin-left: 1vw;
 } 
+
 .form-eliminar input{
     width: 15vw;
     height: 4.5vh;
@@ -331,6 +366,10 @@ textarea{
     outline: none;
     padding: 1vh;
     border: solid rgb(223, 223, 223) 0.15em;
+}
+
+#desc_benef{
+    width: 12vw;
 }
 
 #btn-agregar{
@@ -365,32 +404,4 @@ textarea{
 #btn-eliminar:hover{
     background-color: rgb(185, 42, 42);
     border: solid rgb(143, 11, 11) 2px;
-}
-
-.paginacion {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 7.5vh;
-    margin-left: 1vw;
-}
-
-.paginacion button {
-    display: flex;
-    padding: 0.45vw;
-    background-color: #00AD00;
-    color: white;
-    border: none;
-    border-radius: 2em;
-    cursor: pointer;
-}
-
-.paginacion button:hover{
-    background-color: #018a01;
-}
-
-.paginacion button[disabled] {
-    background-color: #ccc;
-    cursor: not-allowed;
 }

@@ -1,8 +1,14 @@
+<!-- Contenedor general -->
 <div class="cont-form">
+
+
+  <!-- Contenedor del titulo -->
   <div class="cont-titulo">
     <h2>Crea tu propia cuenta</h2>
   </div>
 
+
+  <!-- Formulario de registro -->
   <form (ngSubmit)="onRegister()">
     <label for="fullName" id="primer-label">Nombre completo</label>
     <input type="text" id="fullName" [(ngModel)]="fullName" name="fullName" required>
@@ -29,11 +35,19 @@
       <button type="submit">Registrarse</button>
     </div>
 
+
+    <!-- Redirección al login -->
     <div class="acceder">
       ¿Ya tienes una cuenta? &nbsp;
       <a routerLink="/login">Acceder</a>
     </div>
 
+
+    <!-- Mensaje de error -->
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+
   </form>
+
+  
 </div>

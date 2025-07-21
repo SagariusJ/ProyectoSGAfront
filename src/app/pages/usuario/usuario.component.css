@@ -1,3 +1,4 @@
+/* 1. Estilos generales */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -9,6 +10,9 @@ body {
     background-color: #DFDFDF;
 }
 
+
+
+/* 2. Estilos del contenedor general */
 .usuarios {
     display: flex;
     flex-direction: row;
@@ -16,6 +20,9 @@ body {
     min-height: 90vh;
 }
 
+
+
+/* 3. Estilos del contenedor imagen de usuario */
 .container-foto-nombre {
     display: flex;
     flex-direction: column;
@@ -85,6 +92,9 @@ body {
     color: white;
 }
 
+
+
+/* Estilos del contenedor de beneficios del usuario */
 .container-beneficios {
     display: flex;
     flex-direction: column;
@@ -128,6 +138,9 @@ body {
     padding: 10px 17px;
 }
 
+
+
+/* Estilos del contenedor de datos del usuario */
 .container-datos {
     display: flex;
     flex-direction: column;

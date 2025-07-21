@@ -1,8 +1,14 @@
+<!-- Contenedor general -->
 <div class="cont-form">
+
+
+  <!-- Contenedor del titulo -->
   <div class="cont-titulo">
     <h2>Inicio de sesión</h2>
   </div>
 
+
+  <!-- Formulario de login -->
   <form (ngSubmit)="onLogin()">
     <label for="correo-usuario" id="primer-label">Correo electrónico</label>
     <input type="text" id="correo-usuario" [(ngModel)]="username" name="username" placeholder="Introduce tu correo" required>
@@ -14,15 +20,25 @@
       <button type="submit">Acceder</button>
     </div>
 
+
+    <!-- Redirección al olvideo de la contraseña -->
     <div class="olvido">
       <a routerLink="/recuperar-clave">¿Has olvidado tu contraseña?</a>
     </div>
 
+
+    <!-- Redirección al formulario de registro -->
     <div class="registrarse">
       ¿Aún no estás registrado? &nbsp;
       <a routerLink="/register">Crear una cuenta</a>
     </div>
 
+
+    <!-- Mensaje de error -->
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+
   </form>
+
+  
 </div>

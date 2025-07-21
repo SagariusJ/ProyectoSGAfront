@@ -1,0 +1,120 @@
+<!-- Contenedor principal -->
+<section class="dispersion">
+
+  <div class="cont-titulo">
+    <h2>Módulo de dispersión</h2>
+  </div>
+
+  <div class="section-sup">
+
+    <!-- Mostrar cantidad -->
+    <div class="number-dispersions">
+      <label for="num">Mostrar </label>
+      <select id="num" [(ngModel)]="selectedLimit" (change)="onLimitChange()">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <p> dispersiones</p>
+    </div>
+
+    <!-- Paginación -->
+    <div class="paginacion">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">
+        <i class='bx bx-chevron-left'></i>
+      </button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+        <i class='bx bx-chevron-right'></i>
+      </button>
+    </div>
+
+    <!-- Botones -->
+    <div class="container-buttons">
+      <button id="eliminar" (click)="confirmDelete(selectedDispersionId)" [disabled]="!selectedDispersionId">
+        <i class='bx bx-minus'></i>
+      </button>
+      <button id="agregar" (click)="openCreateModal()">
+        <i class='bx bx-plus'></i>
+      </button>
+    </div>
+
+    <!-- Búsqueda -->
+    <div class="container-search">
+      <input type="text" name="buscar" placeholder="Buscar por producto o paciente" [(ngModel)]="filterPost" (input)="onFilterChange()">
+    </div>
+
+  </div>
+
+  <!-- Tabla -->
+  <div class="container-tabla">
+    <table>
+      <thead>
+        <tr>
+          <th>ID Dispersion</th>
+          <th>Nombre del Paciente</th>
+          <th>ID Producto</th>
+          <th>Fecha de Emisión</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dispersion of filteredAndPaginatedDispersion"
+            (click)="selectedDispersionId = dispersion.id!"
+            [class.selected]="selectedDispersionId === dispersion.id">
+          <td>{{ dispersion.id }}</td>
+          <td>{{ getPatientName(dispersion.pacienteId) }}</td>
+          <td>{{ dispersion.productoId }}</td>
+          <td>{{ dispersion.fecha }}</td>
+          <td>{{ dispersion.cantidad }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+<!-- Modal eliminar -->
+<div class="pop-ups-fondo" *ngIf="showDeleteModal">
+  <div class="container-pop-up" id="pop-up-eliminar">
+    <div class="bar-sup">
+      <h2>Eliminar una dispersión</h2>
+      <button (click)="showDeleteModal = false">
+        <i class='bx bx-x'></i>
+      </button>
+    </div>
+    <div id="form-eliminar">
+      <p>¿Estás seguro de eliminar esta dispersión?</p>
+      <button id="btn-eliminar" (click)="deleteDispersion()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal agregar -->
+<div class="pop-ups-fondo" *ngIf="showCreateModal">
+  <div class="container-pop-up" id="pop-up-agregar">
+    <div class="bar-sup">
+      <h2>Agregar dispersión</h2>
+      <button (click)="showCreateModal = false">
+        <i class='bx bx-x'></i>
+      </button>
+    </div>
+    <div class="forms">
+      <form id="form-agregar" #formAgregar="ngForm" (ngSubmit)="createDispersion()">
+        <label for="pacienteId">ID del paciente</label>
+        <input type="number" id="pacienteId" required [(ngModel)]="newDispersion.pacienteId" name="pacienteId">
+
+        <label for="productoId">ID del producto</label>
+        <input type="number" id="productoId" required [(ngModel)]="newDispersion.productoId" name="productoId">
+
+        <label for="fecha">Fecha de emisión</label>
+        <input type="date" id="fecha" required [(ngModel)]="newDispersion.fecha" name="fecha">
+
+        <label for="cantidad">Cantidad</label>
+        <input type="number" id="cantidad" required [(ngModel)]="newDispersion.cantidad" name="cantidad">
+
+        <button type="submit" [disabled]="!formAgregar.form.valid" id="btn-agregar">Agregar</button>
+      </form>
+    </div>
+  </div>
+</div>

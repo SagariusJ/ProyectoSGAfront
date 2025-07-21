@@ -1,1 +1,95 @@
-<p>ventas works!</p>
+<!-- 1. Contenedor general -->
+<section class="inventario">
+
+  <!-- 2. Barra de opciones superior -->
+  <div class="section-sup">
+
+    <!-- 3. Contenedor de cantidad de elementos -->
+    <div class="number-products">
+      <label for="num">Mostrar </label>
+      <select id="num" [(ngModel)]="selectedLimit">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <p> ventas</p>
+    </div>
+
+    <!-- 4. Contenedor de la paginación -->
+    <div class="paginacion">
+      <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1">
+        <i class='bx bx-chevron-left'></i>
+      </button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="currentPage = currentPage + 1" [disabled]="currentPage === totalPages">
+        <i class='bx bx-chevron-right'></i>
+      </button>
+    </div>
+
+    <!-- 5. Contenedor de los botones -->
+    <div class="container-buttons">
+      <button id="agregar-venta" popovertarget="popup-agregar-venta"><i class='bx bx-plus'></i></button>
+
+      <button (click)="downloadReport()" title="Descargar informe diario" id="btn-informe"><i class="fas fa-file-pdf"></i></button>
+    </div>
+
+    <!-- 6. Contenedor de búsqueda -->
+    <div class="container-search">
+      <input type="text" placeholder="Buscar por ID o usuario..." [(ngModel)]="filterPost" />
+    </div>
+
+  </div>
+
+  <!-- 7. Contenedor de la tabla de datos -->
+  <div class="container-tabla">
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 10%;">ID</th>
+                <th style="width: 20%;">ID Usuario</th>
+                <th style="width: 30%;">Fecha</th>
+                <th style="width: 20%;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let venta of filteredVentas">
+              <td>{{ venta.id }}</td>
+              <td>{{ venta.user_id }}</td>
+              <td>{{ venta.saleDate }}</td>
+              <td>{{ calculateTotal(venta) }}</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 8. Pop-up para agregar venta -->
+<div class="pop-ups-fondo" popover id="popup-agregar-venta">
+
+  <!-- 9. Contenedor pop-up agregar -->
+  <div id="pop-up-agregar-venta">
+
+    <!-- 10. Barra superior del pop-up -->
+    <div class="bar-sup">
+      <h2>Agregar Venta</h2>
+      <button popovertarget="popup-agregar-venta" popovertargetaction="hide"><i class='bx bx-x'></i></button>
+    </div>
+
+    <!-- 11. Formulario -->
+    <div class="forms">
+      <form id="form-agregar-venta" (ngSubmit)="addVenta()" #formAgregar="ngForm">
+
+        <label>ID de Usuario</label>
+        <input type="number" name="user_id" [(ngModel)]="newVenta.user_id" required />
+
+        <label>Fecha</label>
+        <input type="date" name="saleDate" [(ngModel)]="newVenta.saleDate" required />
+
+        <button popovertarget="popup-agregar-venta" popovertargetaction="hide" type="submit" id="btn-agregar-venta">
+          Agregar
+        </button>
+
+      </form>
+    </div>
+  </div>
+</div>

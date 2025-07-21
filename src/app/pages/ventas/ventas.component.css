@@ -267,3 +267,17 @@ thead th:last-child {
   background-color: rgb(15, 165, 48);
   border: solid rgb(3, 121, 28) 2px;
 }
+/* Botón de informe */
+#btn-informe {
+  background-color: #e67e22;
+  border: solid #ba5e0b 2px;
+  cursor: pointer;
+}
+#btn-informe:hover {
+  background-color: #d37116;
+  border: solid #994f0c 2px;
+}
+#btn-informe i {
+  font-size: 16px;
+  color: white;
+}

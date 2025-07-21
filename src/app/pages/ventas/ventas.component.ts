@@ -6,6 +6,7 @@ import { PaginatePipe } from '../../pipes/paginate.pipe';
 import { FormsModule } from '@angular/forms';
 import { VentaService, Venta } from '../../services/venta.service';
 import { VentaDetailService, VentaDetail } from '../../services/venta-detail.service';
+import { InformeService } from '../../services/informe.service';
 
 @Component({
   selector: 'app-ventas',
@@ -24,7 +25,7 @@ export class VentasComponent implements OnInit {
 
   newVenta: Venta = {
     user_id: 0,
-    saleDate: new Date().toISOString().split('T')[0], // Fecha actual en formato YYYY-MM-DD
+    saleDate: new Date().toISOString().split('T')[0],
     cost: 0
   };
 
@@ -37,7 +38,8 @@ export class VentasComponent implements OnInit {
 
   constructor(
     private ventaService: VentaService,
-    private ventaDetailService: VentaDetailService
+    private ventaDetailService: VentaDetailService,
+    private informeService: InformeService // ✅ Inyectamos el servicio
   ) {}
 
   ngOnInit(): void {
@@ -80,16 +82,11 @@ export class VentasComponent implements OnInit {
     if (this.newVenta.user_id && this.newVenta.saleDate) {
       this.ventaService.create(this.newVenta).subscribe({
         next: () => {
-          // Recargar ventas para obtener la nueva
           this.loadVentas();
-
-          // Encontrar la venta más reciente por fecha
           const ventasOrdenadas = [...this.ventas].sort((a, b) => {
             return new Date(b.saleDate).getTime() - new Date(a.saleDate).getTime();
           });
-
-          const ventaCreada = ventasOrdenadas[0]; // La más reciente
-
+          const ventaCreada = ventasOrdenadas[0];
           if (ventaCreada && ventaCreada.id) {
             const nuevoDetalle: VentaDetail = {
               sale: ventaCreada,
@@ -97,7 +94,6 @@ export class VentasComponent implements OnInit {
               amount: 1,
               price: 0
             };
-
             this.ventaDetailService.create(nuevoDetalle).subscribe({
               next: () => {
                 this.loadVentaDetails();
@@ -197,5 +193,20 @@ export class VentasComponent implements OnInit {
   calculateTotal(venta: Venta): number {
     const details = this.getDetailsForVenta(venta.id);
     return details.reduce((total, detail) => total + (detail.price * detail.amount), 0);
+  }
+
+  // ✅ NUEVO: Método para descargar el informe
+  downloadReport(): void {
+    this.informeService.downloadDailyReport().subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'informe_diario.pdf';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }, error => {
+      console.error('Error al descargar el informe:', error);
+      alert('No se pudo descargar el informe.');
+    });
   }
 }

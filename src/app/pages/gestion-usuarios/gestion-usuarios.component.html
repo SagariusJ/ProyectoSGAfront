@@ -6,7 +6,7 @@
     <!-- Mostrar cantidad -->
     <div class="number-products">
       <label for="num">Mostrar </label>
-      <select id="num" [(ngModel)]="selectedLimit">
+      <select id="num" [(ngModel)]="selectedLimit" (change)="onLimitChange()">
         <option [value]="5">5</option>
         <option [value]="10">10</option>
         <option [value]="15">15</option>
@@ -16,74 +16,65 @@
 
     <!-- Paginación -->
     <div class="paginacion">
-      <button (click)="prevPage()" [disabled]="currentPage === 1"><i class='bx bx-chevron-left'></i></button>
+      <button (click)="prevPage()" [disabled]="currentPage === 1">
+        <i class='bx bx-chevron-left'></i>
+      </button>
       <span>Página {{ currentPage }} de {{ totalPages }}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages"><i class='bx bx-chevron-right'></i></button>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+        <i class='bx bx-chevron-right'></i>
+      </button>
     </div>
 
     <!-- Botones de acción -->
     <div class="container-buttons">
-      <button id="eliminar" popovertarget="popup-eliminar-usuario"><i class='bx bx-minus'></i></button>
-      <button id="agregar" popovertarget="popup-agregar-usuario"><i class='bx bx-plus'></i></button>
+      <button id="eliminar" (click)="openDeleteModal()" popovertarget="popup-eliminar-usuario">
+        <i class='bx bx-minus'></i>
+      </button>
+      <button id="agregar" (click)="openCreateModal()" popovertarget="popup-agregar-usuario">
+        <i class='bx bx-plus'></i>
+      </button>
     </div>
 
     <!-- Búsqueda -->
     <div class="container-search">
-      <input type="text" placeholder="Buscar..." [(ngModel)]="filterPost">
+      <input type="text" placeholder="Buscar por nombre..." [(ngModel)]="filterPost" (input)="onFilterChange()">
     </div>
   </div>
 
   <!-- Tabla de usuarios -->
   <div class="container-tabla">
-
     <table>
-
       <thead>
-
         <tr>
-
           <th>ID usuario</th>
           <th>Nombre completo</th>
           <th>RUT usuario</th>
           <th>Edad</th>
           <th>Dirección</th>
           <th>Comuna</th>
-          <th>N° de beneficios</th>
-          <th>Añadir beneficios</th>
-          <th>Quitar beneficios</th>
-
+          <th>Región</th>
+          <th>Beneficio</th>
+          <th>Acciones</th>
         </tr>
-
       </thead>
-
       <tbody>
-
-        <tr *ngFor="let post of filteredPosts">
-
-          <td>{{ post.id_user }}</td>
-          <td>{{ post.nombre }}</td>
-          <td>{{ post.rut }}</td>
-          <td>{{ post.edad }}</td>
-          <td>{{ post.direccion }}</td>
-          <td>{{ post.comuna }}</td>
-          <td>{{ post.n_beneficios }}</td>
+        <tr *ngFor="let patient of filteredPatients"
+            (click)="selectedPatient = patient"
+            [class.selected]="selectedPatient?.id === patient.id">
+          <td>{{ patient.id }}</td>
+          <td>{{ patient.fullName }}</td>
+          <td>{{ patient.RUT }}</td>
+          <td>{{ patient.edad }}</td>
+          <td>{{ patient.address }}</td>
+          <td>{{ patient.comuna }}</td>
+          <td>{{ patient.region }}</td>
+          <td>{{ getPatientBenefitName(patient.id) }}</td>
           <td>
-            <button popovertarget="popup-agregar-benef">
-              <i class="bx bxs-edit"></i>
-            </button>
+            <button (click)="openEditModal(patient)">Editar</button>
           </td>
-          <td>
-            <button popovertarget="popup-eliminar-benef">
-              <i class='bx bx-minus'></i>
-            </button>
-          </td>
-
         </tr>
-
       </tbody>
-
     </table>
-
   </div>
 
 </section>
@@ -92,103 +83,94 @@
 
 <!-- Eliminar usuario -->
 <div class="pop-ups-fondo" popover id="popup-eliminar-usuario">
- 
   <div class="popup">
-    
     <div class="bar-sup">
-      
       <h2>Eliminar un usuario</h2>
-      <button popovertarget="popup-eliminar-usuario" popovertargetaction="hide"><i class='bx bx-x'></i></button>
-   
+      <button popovertarget="popup-eliminar-usuario" popovertargetaction="hide">
+        <i class='bx bx-x'></i>
+      </button>
     </div>
-   
     <div class="forms">
-
-      <label>ID del usuario</label>
-      <input type="text" [(ngModel)]="userIdToDelete" readonly />
-
-      <button (click)="deleteUser()" popovertarget="popup-eliminar-usuario" popovertargetaction="hide">Eliminar</button>
-    
+      <p>¿Estás seguro de eliminar a {{ selectedPatient?.fullName }}?</p>
+      <button (click)="deletePatient(selectedPatient?.id!)" popovertarget="popup-eliminar-usuario" popovertargetaction="hide">
+        Eliminar
+      </button>
     </div>
-  
   </div>
-
 </div>
-
-
 
 <!-- Agregar usuario -->
 <div class="pop-ups-fondo" popover id="popup-agregar-usuario">
-  
   <div class="popup">
-  
     <div class="bar-sup">
-  
       <h2>Agregar un nuevo usuario</h2>
-      <button popovertarget="popup-agregar-usuario" popovertargetaction="hide"><i class='bx bx-x'></i></button>
-  
+      <button popovertarget="popup-agregar-usuario" popovertargetaction="hide">
+        <i class='bx bx-x'></i>
+      </button>
     </div>
-  
-    <form class="forms" (ngSubmit)="addUser()" #formAgregar="ngForm">
-        
-      <button type="submit" popovertarget="popup-agregar-usuario" popovertargetaction="hide">Agregar</button>
+    <form class="forms" (ngSubmit)="createPatient()" #createForm="ngForm">
+      <label for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" required [(ngModel)]="newPatient.fullName" name="fullName">
 
+      <label for="rut">RUT del usuario</label>
+      <input type="text" id="rut" required [(ngModel)]="newPatient.RUT" name="RUT">
+
+      <label for="fecha">Fecha de nacimiento</label>
+      <input type="date" id="fecha" required [(ngModel)]="newPatient.birthDate" name="birthDate">
+
+      <label for="edad">Edad</label>
+      <input type="number" id="edad" required [(ngModel)]="newPatient.edad" name="edad">
+
+      <label for="direccion">Dirección</label>
+      <input type="text" id="direccion" [(ngModel)]="newPatient.address" name="address">
+
+      <label for="comuna">Comuna</label>
+      <input type="text" id="comuna" [(ngModel)]="newPatient.comuna" name="comuna">
+
+      <label for="region">Región</label>
+      <input type="text" id="region" [(ngModel)]="newPatient.region" name="region">
+
+      <button type="submit" [disabled]="!createForm.form.valid" popovertarget="popup-agregar-usuario" popovertargetaction="hide">
+        Agregar
+      </button>
     </form>
-
   </div>
-
 </div>
 
-
-
-<!-- Agregar beneficio -->
-<div class="pop-ups-fondo" popover id="popup-agregar-benef">
-
+<!-- Editar usuario -->
+<div class="pop-ups-fondo" popover id="popup-editar-usuario">
   <div class="popup">
-
     <div class="bar-sup">
-
-      <h2>Agregar beneficio</h2>
-      <button popovertarget="popup-agregar-benef" popovertargetaction="hide"><i class='bx bx-x'></i></button>
-    
+      <h2>Editar usuario</h2>
+      <button popovertarget="popup-editar-usuario" popovertargetaction="hide">
+        <i class='bx bx-x'></i>
+      </button>
     </div>
+    <form class="forms" (ngSubmit)="updatePatient()" #editForm="ngForm">
+      <label for="nombre-editar">Nombre completo</label>
+      <input type="text" id="nombre-editar" required [(ngModel)]="editPatient.fullName" name="fullName">
 
-    <form class="forms" (ngSubmit)="addBenefit()">
+      <label for="rut-editar">RUT del usuario</label>
+      <input type="text" id="rut-editar" required [(ngModel)]="editPatient.RUT" name="RUT">
 
-      <label>ID del beneficio</label>
-      <input type="text" [(ngModel)]="newBenefit" name="beneficio" required />
+      <label for="fecha-editar">Fecha de nacimiento</label>
+      <input type="date" id="fecha-editar" required [(ngModel)]="editPatient.birthDate" name="birthDate">
 
-      <button type="submit" popovertarget="popup-agregar-benef" popovertargetaction="hide">Agregar</button>
-    
+      <label for="edad-editar">Edad</label>
+      <input type="number" id="edad-editar" required [(ngModel)]="editPatient.edad" name="edad">
+
+      <label for="direccion-editar">Dirección</label>
+      <input type="text" id="direccion-editar" [(ngModel)]="editPatient.address" name="address">
+
+      <label for="comuna-editar">Comuna</label>
+      <input type="text" id="comuna-editar" [(ngModel)]="editPatient.comuna" name="comuna">
+
+      <label for="region-editar">Región</label>
+      <input type="text" id="region-editar" [(ngModel)]="editPatient.region" name="region">
+
+      <button type="submit" [disabled]="!editForm.form.valid" popovertarget="popup-editar-usuario" popovertargetaction="hide">
+        Guardar cambios
+      </button>
     </form>
-  
   </div>
-
-</div>
-
-
-
-<!-- Eliminar beneficio -->
-<div class="pop-ups-fondo" popover id="popup-eliminar-benef">
-
-  <div class="popup">
-
-    <div class="bar-sup">
-
-      <h2>Eliminar beneficio</h2>
-      <button popovertarget="popup-eliminar-benef" popovertargetaction="hide"><i class='bx bx-x'></i></button>
-
-    </div>
-
-    <form class="forms" (ngSubmit)="removeBenefit()">
-
-      <label>ID del beneficio</label>
-      <input type="text" [(ngModel)]="benefitToRemove" name="beneficio" required />
-
-      <button type="submit" popovertarget="popup-eliminar-benef" popovertargetaction="hide">Eliminar</button>
-
-    </form>
-
-  </div>
-
 </div>

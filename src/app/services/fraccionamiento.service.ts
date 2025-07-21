@@ -8,8 +8,7 @@ export interface Fraccionamiento {
   cantidad: number;
   sucursalOrigenId: number;
   sucursalDestinoId: number;
-  fecha: string; // Usamos string para compatibilidad con JSON
-  usuarioId: number;
+  fecha: string;
 }
 
 @Injectable({
